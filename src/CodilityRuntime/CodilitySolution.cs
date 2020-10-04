@@ -1,23 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using CodilityRuntime.Core;
+﻿using CodilityRuntime.Core;
 using CodilityRuntime.Loaders;
 using CodilityRuntime.Parsers;
 
+//BEGIN: Copy Past on Codility
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+
+using InputType = System.Int32;
+using OutputType = System.Int32;
+
+class Solution
+{
+    public InputType solution(OutputType n)
+    {
+        var bits = new BitArray(new int[] { n });
+        int currentGap = 0, maxGap = 0;
+        bool firstGapFound = false;
+        foreach (bool bit in bits)
+        {
+            if (firstGapFound)
+            {
+                if (bit)
+                {
+                    maxGap = currentGap > maxGap ? currentGap : maxGap;
+                    currentGap = 0;
+                }
+                else
+                {
+                    currentGap++;
+                }
+            }
+            else
+            {
+                if (bit)
+                {
+                    firstGapFound = true;
+                    currentGap = 0;
+                }
+            }
+        }
+
+        return maxGap;
+    }
+}
+//END: Copy Past on Codility
+
 namespace CodilityRuntime
 {
-    using InputType = System.Int32;
-    using OutputType = System.Int32;
-
-    class Solution
-    {
-        public InputType solution(OutputType N)
-        {
-            return 0;
-        }
-    }
-
     public static class CodilitySolution
     {
         public static CodilityTestsSuite<InputType, OutputType> GetTestCases()
