@@ -1,22 +1,19 @@
 ﻿using CodilityRuntime.Core;
 using CodilityRuntime.Loaders;
 using CodilityRuntime.Parsers;
-using CodilityRuntime.Solutions;
 
 //BEGIN: Copy Past on Codility
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 
-using InputType = System.Int32;
-using OutputType = System.Int32;
+using InputType = System.Collections.Generic.IEnumerable<object>;
+using OutputType = System.Collections.Generic.IEnumerable<object>;
 
 class Solution
 {
-    public InputType solution(OutputType n)
+    public int solution(int n, string b)
     {
-        return BinaryGap.solution(n);
+        return -1;
     }
 }
 //END: Copy Past on Codility
@@ -40,15 +37,7 @@ namespace CodilityRuntime
 
         public static Func<InputType, OutputType> GetSolutionFunction()
         {
-            return new Solution().solution;
-        }
-
-        static void GetFileTestCases<TInput, TOutput>(out CodilityTestsSuite<TInput, TOutput> testCases)
-        {
-            var loader = new CodilityTestFileLoader(Path.Combine(Directory.GetCurrentDirectory(), "../../../../../test_cases.txt").ToString());
-            var parser = new CodilityTestParser<TInput, TOutput>(loader);
-
-            testCases = parser.GetTestCases();
+            return CodilityRuntimeUtils.GetSolutionFunc<int, string, int>(new Solution().solution);
         }
     }
 }

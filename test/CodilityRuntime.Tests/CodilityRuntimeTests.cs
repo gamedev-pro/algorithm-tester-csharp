@@ -1,9 +1,6 @@
 using System;
 using Xunit;
-using CodilityRuntime.Loaders;
-using CodilityRuntime.Parsers;
 using CodilityRuntime.Core;
-using System.IO;
 
 namespace CodilityRuntime.Tests
 {
@@ -25,7 +22,8 @@ namespace CodilityRuntime.Tests
             foreach (var testCase in testSuite)
             {
                 var actual = func(testCase.Input);
-                Assert.Equal(testCase.Output, actual);
+
+                Assert.Equal(testCase.Output, actual, new CodilityOutputComparer<TOutput>());
             }
         }
     }

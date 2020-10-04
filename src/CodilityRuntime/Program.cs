@@ -1,4 +1,5 @@
 ﻿using CodilityRuntime.Core;
+using Newtonsoft.Json;
 using System;
 
 namespace CodilityRuntime
@@ -25,9 +26,9 @@ namespace CodilityRuntime
                 Console.WriteLine(
                     string.Format("Test {0}: Input = {1}, Expected = {2}, Actual = {3}", 
                     testIndex, 
-                    testCase.Input.ToString(), 
-                    testCase.Output.ToString(), 
-                    actual.ToString()));
+                    JsonConvert.SerializeObject(testCase.Input),
+                    JsonConvert.SerializeObject(testCase.Output),
+                    JsonConvert.SerializeObject(actual)));
 
                 testIndex++;
             }
