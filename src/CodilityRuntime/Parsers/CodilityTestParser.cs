@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using CodilityRuntime.Tests.Loaders;
-using CodilityRuntime.Tests.Core;
+using CodilityRuntime.Loaders;
+using CodilityRuntime.Core;
 using System.Text;
 
-namespace CodilityRuntime.Tests.Parsers
+namespace CodilityRuntime.Parsers
 {
     class CodilityTestParser<TInput, TOutput> : ICodilityTestParser<TInput, TOutput>
     {

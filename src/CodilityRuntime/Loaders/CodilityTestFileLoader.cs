@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using CodilityRuntime.Tests.Core;
+using CodilityRuntime.Core;
 using System.Text;
 
-namespace CodilityRuntime.Tests.Loaders
+namespace CodilityRuntime.Loaders
 {
     class CodilityTestFileLoader : ICodilityTestLoader
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CodilityRuntime.Tests.Core
+namespace CodilityRuntime.Core
 {
     interface ICodilityTestParser<TInput, TOutput>
     {

@@ -3,15 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CodilityRuntime.Tests.Core
+namespace CodilityRuntime.Core
 {
-    struct CodilityTestCase<TInput, TOutput>
+    public struct CodilityTestCase<TInput, TOutput>
     {
         public TInput Input { get; set; }
         public TOutput Output { get; set; }
     }
 
-    struct CodilityTestsSuite<TInput, TOutput> : IEnumerable<CodilityTestCase<TInput, TOutput>>
+    public struct CodilityTestsSuite<TInput, TOutput> : IEnumerable<CodilityTestCase<TInput, TOutput>>
     {
         public CodilityTestsSuite(IEnumerable<CodilityTestCase<TInput, TOutput>> testCases)
         {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CodilityRuntime.Tests.Parsers
+namespace CodilityRuntime.Parsers
 {
     static class CodilityTestValueParser
     {
