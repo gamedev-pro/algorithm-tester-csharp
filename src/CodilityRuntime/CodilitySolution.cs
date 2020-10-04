@@ -1,6 +1,7 @@
 ﻿using CodilityRuntime.Core;
 using CodilityRuntime.Loaders;
 using CodilityRuntime.Parsers;
+using CodilityRuntime.Solutions;
 
 //BEGIN: Copy Past on Codility
 using System;
@@ -15,34 +16,7 @@ class Solution
 {
     public InputType solution(OutputType n)
     {
-        var bits = new BitArray(new int[] { n });
-        int currentGap = 0, maxGap = 0;
-        bool firstGapFound = false;
-        foreach (bool bit in bits)
-        {
-            if (firstGapFound)
-            {
-                if (bit)
-                {
-                    maxGap = currentGap > maxGap ? currentGap : maxGap;
-                    currentGap = 0;
-                }
-                else
-                {
-                    currentGap++;
-                }
-            }
-            else
-            {
-                if (bit)
-                {
-                    firstGapFound = true;
-                    currentGap = 0;
-                }
-            }
-        }
-
-        return maxGap;
+        return BinaryGap.solution(n);
     }
 }
 //END: Copy Past on Codility
