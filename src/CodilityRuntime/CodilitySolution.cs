@@ -7,9 +7,12 @@ using CodilityRuntime.Parsers;
 
 namespace CodilityRuntime
 {
+    using InputType = System.Int32;
+    using OutputType = System.Int32;
+
     class Solution
     {
-        public int solution(int N)
+        public InputType solution(OutputType N)
         {
             return 0;
         }
@@ -17,19 +20,20 @@ namespace CodilityRuntime
 
     public static class CodilitySolution
     {
-        public static CodilityTestsSuite<int, int> GetTestCases()
+        public static CodilityTestsSuite<InputType, OutputType> GetTestCases()
         {
-            //CodilityTestsSuite<int, int> testSuite;
-            //GetFileTestCases(out testSuite);
-            //return testSuite;
+            var loader = new CodilityTestFileLoader(Path.Combine(Directory.GetCurrentDirectory(), "../../../../../test_cases.txt").ToString());
+            var parser = new CodilityTestParser<InputType, OutputType>(loader);
 
-            return new CodilityTestsSuite<int, int>(new List<CodilityTestCase<int, int>>() 
-            {
-                new CodilityTestCase<int, int>() { Input = 0, Output = 2 }
-            });
+            return parser.GetTestCases();
+
+            //return new CodilityTestsSuite<int, int>(new List<CodilityTestCase<InputType, OutputType>>()
+            //{
+            //    new CodilityTestCase<InputType, OutputType>() { Input = 0, Output = 2 }
+            //});
         }
 
-        public static Func<int, int> GetSolutionFunction()
+        public static Func<InputType, OutputType> GetSolutionFunction()
         {
             return new Solution().solution;
         }
