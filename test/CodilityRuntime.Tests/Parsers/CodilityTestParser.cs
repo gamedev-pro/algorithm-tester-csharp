@@ -23,8 +23,8 @@ namespace CodilityRuntime.Tests.Parsers
             {
                 while (inputsEnumerator.MoveNext() && outputsEnumerator.MoveNext())
                 {
-                    TInput parsedInput = CodilityTestValueParser<TInput>.Parse(inputsEnumerator.Current);
-                    TOutput parsedOutput = CodilityTestValueParser<TOutput>.Parse(outputsEnumerator.Current);
+                    TInput parsedInput = CodilityTestValueParser.Parse<TInput>(inputsEnumerator.Current);
+                    TOutput parsedOutput = CodilityTestValueParser.Parse<TOutput>(outputsEnumerator.Current);
 
                     testCases.Add(new CodilityTestCase<TInput, TOutput>() { Input = parsedInput, Output = parsedOutput });
                 }

@@ -1,47 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CodilityRuntime.Tests.Parsers
 {
-    static class CodilityTestValueParser<T>
+    static class CodilityTestValueParser
     {
-        public static T Parse(string value)
+        public static T Parse<T>(string value)
         {
-            var parsedValue = default(T);
-            ParseInternal(out parsedValue, value);
-            return parsedValue;
+            return (T) ParseInternal(typeof(T), value);
         }
 
-        static void ParseInternal(out T parsedValue, string value)
+        public static object ParseInternal(Type type, string value)
         {
-            throw new System.NotImplementedException();
+            if (type.IsAssignableFrom(typeof(int)))
+            {
+                return int.Parse(value);
+            }
+
+            if (type.IsAssignableFrom(typeof(float)))
+            {
+                return float.Parse(value);
+            }
+
+            if (type.IsAssignableFrom(typeof(string)))
+            {
+                return int.Parse(value);
+            }
+
+            if (type.IsAssignableFrom(typeof(IEnumerable<object>)))
+            {
+                return ParseCollectionInternal<object>(value);
+            }
+
+            throw new System.NotImplementedException(string.Format("ParseInternal not implemented for type: {0}", type.ToString()));
         }
 
-        static void ParseInternal(out int parsedValue, string value) 
-        {
-            parsedValue = int.Parse(value);
-        }
-
-        static void ParseInternal(out float parsedValue, string value)
-        {
-            parsedValue = float.Parse(value);
-        }
-
-        static void ParseInternal(out string parsedValue, string value)
-        {
-            parsedValue = value;
-        }
-
-        static void ParseInternal(out IEnumerable<T> parsedValue, string value)
+        static IEnumerable<T> ParseCollectionInternal<T>(string value)
         {
             var elements = value.Replace("[", "").Replace("]", "").Split(',');
-            var parsedElements = new List<T>(elements.Length);
             foreach (var element in elements)
             {
-                parsedElements.Add(Parse(element));
+                yield return Parse<T>(element);
             }
-            parsedValue = parsedElements;
         }
     }
 }

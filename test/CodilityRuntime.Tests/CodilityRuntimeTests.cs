@@ -3,6 +3,7 @@ using Xunit;
 using CodilityRuntime.Tests.Loaders;
 using CodilityRuntime.Tests.Parsers;
 using CodilityRuntime.Tests.Core;
+using System.IO;
 
 namespace CodilityRuntime.Tests
 {
@@ -11,19 +12,17 @@ namespace CodilityRuntime.Tests
         [Fact]
         public void TestSolution()
         {
-            TestSolutionInternal<int, int>();
+            TestSolutionInternal(CodilitySolution.GetSolutionFunction());
         }
 
-        void TestSolutionInternal<TInput, TOutput>()
+        void TestSolutionInternal<TInput, TOutput>(Func<TInput, TOutput> func)
         {
-            var func = CodilitySolution.GetSolutionFunction<TInput, TOutput>();
-
             if (func == null)
             {
                 throw new System.Exception("Codility solution function is null");
             }
 
-            var loader = new CodilityTestFileLoader("");
+            var loader = new CodilityTestFileLoader(Path.Combine(Directory.GetCurrentDirectory(), "../../../../../test_cases.txt").ToString());
             var parser = new CodilityTestParser<TInput, TOutput>(loader);
 
             var testSuite = parser.GetTestCases();
