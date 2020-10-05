@@ -7,33 +7,27 @@ class Solution
 {
     public int solution(int[] A)
     {
-        //Sum(1,N)
-        //Missing Number = X
-        //Sum(A) = Sum(1,N) - X + N+1
-        //Diff = Sum(A) - Sum(1,N) = -X + N+ 1
-        //X = N + 1 - Diff
-        var diff = SumCollection(A) - SumConsecutives(1, A.Length);
-
-        return A.Length + 1 - diff;
-    }
-
-    int SumConsecutives(int from, int length)
-    {
-        int sum = 0;
-        for (int n = from; n <= length; n++)
+        //3,1,2,4,3
+        //3,4,6,10,13
+        //p=1 3, 13-3 = 10, diff 7
+        //p=2 4, 13-4 = 9, diff 5
+        var aggregatedSums = new double[A.Length];
+        for (int i = 0; i < A.Length; i++)
         {
-            sum += n;
+            var previousValue = i == 0 ? 0 : aggregatedSums[i - 1];
+            aggregatedSums[i] = previousValue + A[i];
         }
-        return sum;
-    }
 
-    int SumCollection(int[] collection)
-    {
-        int sum = 0;
-        for (int i = 0; i < collection.Length; i++)
+        var minAbsDiff = double.MaxValue;
+        for (int p = 1; p < A.Length; p++)
         {
-            sum += collection[i];
+            var beforeP = aggregatedSums[p-1];
+            var afterP = aggregatedSums[A.Length - 1] - beforeP;
+
+            var diff = Math.Abs(beforeP - afterP);
+            minAbsDiff = Math.Min(diff, minAbsDiff);
         }
-        return sum;
+
+        return (int) minAbsDiff;
     }
 }

@@ -18,13 +18,13 @@ namespace CodilityRuntime.Core
             {
                 new CodilityTestCase
                 {
-                    Input = new List<object> { Enumerable.Range(1, 100000+1).Where(e => e != 4) },
-                    Output = new List<int> { 4 }.Cast<object>()
+                    Input = new List<object> { Enumerable.Repeat(1000, 100000) },
+                    Output = new List<int> { 0 }.Cast<object>()
                 },
                 new CodilityTestCase
                 {
-                    Input = new List<object> { Enumerable.Range(1, 100000+1).Where(e => e != 7) },
-                    Output = new List<int> { 7 }.Cast<object>()
+                    Input = new List<object> { Enumerable.Repeat(-1000, 100000) },
+                    Output = new List<int> { 0 }.Cast<object>()
                 }
             });
         }

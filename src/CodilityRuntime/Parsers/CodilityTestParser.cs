@@ -47,6 +47,11 @@ namespace CodilityRuntime.Parsers
             var outputs = new List<string>();
             foreach (var line in lines)
             {
+                if (line.Length == 0)
+                {
+                    continue;
+                }
+
                 var inputAndOutput = line.Split(';');
 
                 if (inputAndOutput.Length != 2)
