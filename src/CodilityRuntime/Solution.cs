@@ -5,29 +5,36 @@ using System.Text;
 
 class Solution
 {
-    public int solution(int[] A)
+    /*Given a value V, if we want to make change for V cents, and we have infinite supply of each of C = { C1, C2, .. , Cm} valued coins, 
+     * what is the minimum number of coins to make the change?
+     */
+    public int solution(int[] coins, int value)
     {
-        //3,1,2,4,3
-        //3,4,6,10,13
-        //p=1 3, 13-3 = 10, diff 7
-        //p=2 4, 13-4 = 9, diff 5
-        var aggregatedSums = new double[A.Length];
-        for (int i = 0; i < A.Length; i++)
+        return calculateMinCoins(coins, value);
+    }
+
+    int calculateMinCoins(int[] coins, int value)
+    {
+        if (value == 0)
         {
-            var previousValue = i == 0 ? 0 : aggregatedSums[i - 1];
-            aggregatedSums[i] = previousValue + A[i];
+            return 0;
         }
 
-        var minAbsDiff = double.MaxValue;
-        for (int p = 1; p < A.Length; p++)
-        {
-            var beforeP = aggregatedSums[p-1];
-            var afterP = aggregatedSums[A.Length - 1] - beforeP;
+        int totalMinCoins = int.MaxValue;
 
-            var diff = Math.Abs(beforeP - afterP);
-            minAbsDiff = Math.Min(diff, minAbsDiff);
+        foreach (var coin in coins)
+        {
+            if (coin <= value)
+            {
+                int minCoins = calculateMinCoins(coins, value - coin) + 1;
+                
+                if (minCoins < totalMinCoins)
+                {
+                    totalMinCoins = minCoins;
+                }
+            }
         }
 
-        return (int) minAbsDiff;
+        return totalMinCoins == int.MaxValue ? 1 : totalMinCoins;
     }
 }
