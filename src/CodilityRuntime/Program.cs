@@ -10,7 +10,7 @@ namespace CodilityRuntime
     {
         static void Main(string[] args)
         {
-            PrintTestResults(CodilitySolution.GetTestCases(), CodilitySolution.GetSolutionFunction());
+            PrintTestResults(CodilitySolutionSetup.GetTestCases(), CodilitySolutionSetup.GetSolutionFunction());
         }
 
         static void PrintTestResults(IEnumerable<CodilityTestCase> testSuite, Func<IEnumerable<object>, IEnumerable<object>> func)

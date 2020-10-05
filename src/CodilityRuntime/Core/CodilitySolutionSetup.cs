@@ -6,16 +6,26 @@ using CodilityRuntime.Extensions;
 using CodilityRuntime.Loaders;
 using CodilityRuntime.Parsers;
 
-using CodilitySolutionGetter = CodilityRuntime.Core.CodilitySolutionFunc<int, int, int, int>;
+using CodilitySolutionGetter = CodilityRuntime.Core.CodilitySolutionFunc<int[], int>;
 
 namespace CodilityRuntime.Core
 {
-    public static class CodilitySolution
+    public static class CodilitySolutionSetup
     {
         static IEnumerable<CodilityTestCase> GetExtraTestCases()
         {
             return new CodilityTestsSuite(new List<CodilityTestCase>()
             {
+                new CodilityTestCase
+                {
+                    Input = new List<object> { Enumerable.Range(1, 100000+1).Where(e => e != 4) },
+                    Output = new List<int> { 4 }.Cast<object>()
+                },
+                new CodilityTestCase
+                {
+                    Input = new List<object> { Enumerable.Range(1, 100000+1).Where(e => e != 7) },
+                    Output = new List<int> { 7 }.Cast<object>()
+                }
             });
         }
 
