@@ -6,7 +6,7 @@ using CodilityRuntime.Extensions;
 using CodilityRuntime.Loaders;
 using CodilityRuntime.Parsers;
 
-using CodilitySolutionGetter = CodilityRuntime.Core.CodilitySolutionFunc<int[], int>;
+using CodilitySolutionGetter = CodilityRuntime.Core.CodilitySolutionFunc<int, int, int, int>;
 
 namespace CodilityRuntime.Core
 {
@@ -16,16 +16,6 @@ namespace CodilityRuntime.Core
         {
             return new CodilityTestsSuite(new List<CodilityTestCase>()
             {
-                new CodilityTestCase 
-                {
-                    Input = new List<int[]>{ Enumerable.Repeat(3, 1000000).Append(2).Randomize().ToArray() }.Cast<object>(),
-                    Output = new List<int> { 2 }.Cast<object>(),
-                },
-                new CodilityTestCase 
-                {
-                    Input = new List<int[]>{ Enumerable.Range(1, 500000).Concat(Enumerable.Range(1, 500000)).Append(2).Randomize().ToArray() }.Cast<object>(),
-                    Output = new List<int> { 2 }.Cast<object>(),
-                }
             });
         }
 
