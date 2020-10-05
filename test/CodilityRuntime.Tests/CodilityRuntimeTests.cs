@@ -1,6 +1,7 @@
 using System;
 using Xunit;
 using CodilityRuntime.Core;
+using System.Collections.Generic;
 
 namespace CodilityRuntime.Tests
 {
@@ -12,7 +13,7 @@ namespace CodilityRuntime.Tests
             TestSolutionInternal(CodilitySolution.GetTestCases(), CodilitySolution.GetSolutionFunction());
         }
 
-        void TestSolutionInternal<TInput, TOutput>(CodilityTestsSuite<TInput, TOutput> testSuite, Func<TInput, TOutput> func)
+        void TestSolutionInternal(CodilityTestsSuite testSuite, Func<IEnumerable<object>, IEnumerable<object>> func)
         {
             if (func == null)
             {
@@ -23,7 +24,7 @@ namespace CodilityRuntime.Tests
             {
                 var actual = func(testCase.Input);
 
-                Assert.Equal(testCase.Output, actual, new CodilityOutputComparer<TOutput>());
+                Assert.Equal(testCase.Output, actual, new CodilityOutputComparer<IEnumerable<object>>());
             }
         }
     }

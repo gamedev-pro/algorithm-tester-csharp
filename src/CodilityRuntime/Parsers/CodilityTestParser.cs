@@ -6,16 +6,16 @@ using System.Text;
 
 namespace CodilityRuntime.Parsers
 {
-    class CodilityTestParser<TInput, TOutput> : ICodilityTestParser<TInput, TOutput>
+    class CodilityTestParser : ICodilityTestParser
     {
         public CodilityTestParser(ICodilityTestLoader loader)
         {
             this.loader = loader;
         }
 
-        public CodilityTestsSuite<TInput, TOutput> GetTestCases()
+        public CodilityTestsSuite GetTestCases()
         {
-            var testCases = new List<CodilityTestCase<TInput, TOutput>>();
+            var testCases = new List<CodilityTestCase>();
 
             var inputsAndOutputsRaw = GetInputAndOutputs();
             using (var inputsEnumerator = inputsAndOutputsRaw.Key.GetEnumerator())
@@ -23,14 +23,14 @@ namespace CodilityRuntime.Parsers
             {
                 while (inputsEnumerator.MoveNext() && outputsEnumerator.MoveNext())
                 {
-                    TInput parsedInput = CodilityTestValueParser.Parse<TInput>(inputsEnumerator.Current);
-                    TOutput parsedOutput = CodilityTestValueParser.Parse<TOutput>(outputsEnumerator.Current);
+                    var parsedInput = CodilityTestValueParser.Parse<IEnumerable<object>>(inputsEnumerator.Current);
+                    var parsedOutput = CodilityTestValueParser.Parse<IEnumerable<object>>(outputsEnumerator.Current);
 
-                    testCases.Add(new CodilityTestCase<TInput, TOutput>() { Input = parsedInput, Output = parsedOutput });
+                    testCases.Add(new CodilityTestCase() { Input = parsedInput, Output = parsedOutput });
                 }
             }
 
-            return new CodilityTestsSuite<TInput, TOutput>(testCases);
+            return new CodilityTestsSuite(testCases);
         }
 
         KeyValuePair<IEnumerable<string>, IEnumerable<string>> GetInputAndOutputs()

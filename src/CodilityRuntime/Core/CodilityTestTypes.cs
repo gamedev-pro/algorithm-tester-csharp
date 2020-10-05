@@ -5,20 +5,20 @@ using System.Text;
 
 namespace CodilityRuntime.Core
 {
-    public struct CodilityTestCase<TInput, TOutput>
+    public struct CodilityTestCase
     {
-        public TInput Input { get; set; }
-        public TOutput Output { get; set; }
+        public IEnumerable<object> Input { get; set; }
+        public IEnumerable<object> Output { get; set; }
     }
 
-    public struct CodilityTestsSuite<TInput, TOutput> : IEnumerable<CodilityTestCase<TInput, TOutput>>
+    public struct CodilityTestsSuite : IEnumerable<CodilityTestCase>
     {
-        public CodilityTestsSuite(IEnumerable<CodilityTestCase<TInput, TOutput>> testCases)
+        public CodilityTestsSuite(IEnumerable<CodilityTestCase> testCases)
         {
             this.testCases = testCases;
         }
 
-        IEnumerator<CodilityTestCase<TInput, TOutput>> IEnumerable<CodilityTestCase<TInput, TOutput>>.GetEnumerator()
+        IEnumerator<CodilityTestCase> IEnumerable<CodilityTestCase>.GetEnumerator()
         {
             foreach (var testCase in testCases)
             {
@@ -34,6 +34,6 @@ namespace CodilityRuntime.Core
             }
         }
 
-        private IEnumerable<CodilityTestCase<TInput, TOutput>> testCases;
+        private IEnumerable<CodilityTestCase> testCases;
     }
 }

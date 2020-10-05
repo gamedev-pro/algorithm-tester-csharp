@@ -4,8 +4,8 @@ using System.Text;
 
 namespace CodilityRuntime.Core
 {
-    interface ICodilityTestParser<TInput, TOutput>
+    interface ICodilityTestParser
     {
-        CodilityTestsSuite<TInput, TOutput> GetTestCases();
+        CodilityTestsSuite GetTestCases();
     }
 }

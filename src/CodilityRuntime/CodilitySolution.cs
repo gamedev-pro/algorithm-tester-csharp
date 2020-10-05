@@ -4,16 +4,14 @@ using CodilityRuntime.Parsers;
 
 //BEGIN: Copy Past on Codility
 using System;
+using System.Collections.Generic;
 using System.IO;
-
-using InputType = System.Collections.Generic.IEnumerable<object>;
-using OutputType = System.Collections.Generic.IEnumerable<object>;
 
 class Solution
 {
-    public int solution(int n, string b)
+    public int solution(int n)
     {
-        return -1;
+        return 2;
     }
 }
 //END: Copy Past on Codility
@@ -22,22 +20,17 @@ namespace CodilityRuntime
 {
     public static class CodilitySolution
     {
-        public static CodilityTestsSuite<InputType, OutputType> GetTestCases()
+        public static CodilityTestsSuite GetTestCases()
         {
             var loader = new CodilityTestFileLoader(Path.Combine(Directory.GetCurrentDirectory(), "../../../../../test_cases.txt").ToString());
-            var parser = new CodilityTestParser<InputType, OutputType>(loader);
+            var parser = new CodilityTestParser(loader);
 
             return parser.GetTestCases();
-
-            //return new CodilityTestsSuite<int, int>(new List<CodilityTestCase<InputType, OutputType>>()
-            //{
-            //    new CodilityTestCase<InputType, OutputType>() { Input = 0, Output = 2 }
-            //});
         }
 
-        public static Func<InputType, OutputType> GetSolutionFunction()
+        public static Func<IEnumerable<object>, IEnumerable<object>> GetSolutionFunction()
         {
-            return CodilityRuntimeUtils.GetSolutionFunc<int, string, int>(new Solution().solution);
+            return CodilityRuntimeUtils.GetSolutionFunc<int, int>(new Solution().solution);
         }
     }
 }

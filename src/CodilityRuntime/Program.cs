@@ -1,6 +1,7 @@
 ﻿using CodilityRuntime.Core;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 namespace CodilityRuntime
 {
@@ -11,7 +12,7 @@ namespace CodilityRuntime
             PrintTestResults(CodilitySolution.GetTestCases(), CodilitySolution.GetSolutionFunction());
         }
 
-        static void PrintTestResults<TInput, TOutput>(CodilityTestsSuite<TInput, TOutput> testSuite, Func<TInput, TOutput> func)
+        static void PrintTestResults(CodilityTestsSuite testSuite, Func<IEnumerable<object>, IEnumerable<object>> func)
         {
             if (func == null)
             {
