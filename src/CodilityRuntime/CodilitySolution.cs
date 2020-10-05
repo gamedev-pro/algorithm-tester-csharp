@@ -1,14 +1,18 @@
-﻿class Solution
-{
-    public int[] solution(int[] A, int K)
-    {
-        var shifted = new int[A.Length];
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
-        for (int i = 0; i < A.Length; i++)
+class Solution
+{
+    public int solution(int[] A)
+    {
+        var hits = new Dictionary<int,int>(A.Length);
+        foreach (var element in A)
         {
-            int shiftedIndex = (i + K) % A.Length;
-            shifted[shiftedIndex] = A[i];
+            var hitCount = hits.ContainsKey(element) ? hits[element] : 0;
+            hits[element] = hitCount + 1;
         }
-        return shifted;
+
+        return hits.First(elementAndHitCount => elementAndHitCount.Value % 2 != 0).Key;
     }
 }
