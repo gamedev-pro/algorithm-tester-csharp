@@ -13,7 +13,7 @@ namespace CodilityRuntime.Tests
             TestSolutionInternal(CodilitySolution.GetTestCases(), CodilitySolution.GetSolutionFunction());
         }
 
-        void TestSolutionInternal(CodilityTestsSuite testSuite, Func<IEnumerable<object>, IEnumerable<object>> func)
+        void TestSolutionInternal(IEnumerable<CodilityTestCase> testSuite, Func<IEnumerable<object>, IEnumerable<object>> func)
         {
             if (func == null)
             {
