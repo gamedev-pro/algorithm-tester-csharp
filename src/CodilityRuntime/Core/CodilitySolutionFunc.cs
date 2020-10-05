@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace CodilityRuntime.Core
 {
-    class CodilityRuntimeUtils
+    class CodilitySolutionFunc<T1, TRet>
     {
-        public static Func<IEnumerable<object>, IEnumerable<object>> GetSolutionFunc<T1, TRet>(Func<T1, TRet> func)
+        public static Func<IEnumerable<object>, IEnumerable<object>> Get(Func<T1, TRet> func)
         {
             return (input) =>
             {
@@ -14,8 +14,11 @@ namespace CodilityRuntime.Core
                 return new List<object>() { func(typedInput) };
             };
         }
+    }
 
-        public static Func<IEnumerable<object>, IEnumerable<object>> GetSolutionFunc<T1, T2, TRet>(Func<T1, T2, TRet> func)
+    class CodilitySolutionFunc<T1, T2, TRet>
+    {
+        public static Func<IEnumerable<object>, IEnumerable<object>> Get(Func<T1, T2, TRet> func)
         {
             return (input) =>
             {
@@ -24,8 +27,11 @@ namespace CodilityRuntime.Core
                 return new List<object>() { func(typedInput1, typedInput2) };
             };
         }
+    }
 
-        public static Func<IEnumerable<object>, IEnumerable<object>> GetSolutionFunc<T1, T2, T3, TRet>(Func<T1, T2, T3, TRet> func)
+    class CodilitySolutionFunc<T1, T2, T3, TRet>
+    {
+        public static Func<IEnumerable<object>, IEnumerable<object>> Get(Func<T1, T2, T3, TRet> func)
         {
             return (input) =>
             {
