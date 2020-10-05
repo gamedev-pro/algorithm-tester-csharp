@@ -2,6 +2,13 @@
 {
     public int[] solution(int[] A, int K)
     {
-        return new int[] { 1, 2, 1};
+        var shifted = new int[A.Length];
+
+        for (int i = 0; i < A.Length; i++)
+        {
+            int shiftedIndex = (i + K) % A.Length;
+            shifted[shiftedIndex] = A[i];
+        }
+        return shifted;
     }
 }
