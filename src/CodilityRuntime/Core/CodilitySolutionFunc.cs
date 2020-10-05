@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,8 +11,8 @@ namespace CodilityRuntime.Core
         {
             return (input) =>
             {
-                T1 typedInput = (T1)Convert.ChangeType(input.ElementAt(0), typeof(T1));
-                return new List<object>() { func(typedInput) };
+                T1 typedInput1 = JsonConvert.DeserializeObject<T1>(JsonConvert.SerializeObject(input.ElementAt(0)));
+                return new List<object>() { func(typedInput1) };
             };
         }
     }
@@ -22,8 +23,8 @@ namespace CodilityRuntime.Core
         {
             return (input) =>
             {
-                T1 typedInput1 = (T1)Convert.ChangeType(input.ElementAt(0), typeof(T1));
-                T2 typedInput2 = (T2)Convert.ChangeType(input.ElementAt(1), typeof(T2));
+                T1 typedInput1 = JsonConvert.DeserializeObject<T1>(JsonConvert.SerializeObject(input.ElementAt(0)));
+                T2 typedInput2 = JsonConvert.DeserializeObject<T2>(JsonConvert.SerializeObject(input.ElementAt(1)));
                 return new List<object>() { func(typedInput1, typedInput2) };
             };
         }
@@ -35,9 +36,9 @@ namespace CodilityRuntime.Core
         {
             return (input) =>
             {
-                T1 typedInput1 = (T1)Convert.ChangeType(input.ElementAt(0), typeof(T1));
-                T2 typedInput2 = (T2)Convert.ChangeType(input.ElementAt(1), typeof(T2));
-                T3 typedInput3 = (T3)Convert.ChangeType(input.ElementAt(2), typeof(T3));
+                T1 typedInput1 = JsonConvert.DeserializeObject<T1>(JsonConvert.SerializeObject(input.ElementAt(0)));
+                T2 typedInput2 = JsonConvert.DeserializeObject<T2>(JsonConvert.SerializeObject(input.ElementAt(1)));
+                T3 typedInput3 = JsonConvert.DeserializeObject<T3>(JsonConvert.SerializeObject(input.ElementAt(2)));
                 return new List<object>() { func(typedInput1, typedInput2, typedInput3) };
             };
         }

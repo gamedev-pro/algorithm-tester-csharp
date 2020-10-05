@@ -1,7 +1,7 @@
 ﻿class Solution
 {
-    public int solution(int n, string b)
+    public int[] solution(int[] A, int K)
     {
-        return 2;
+        return new int[] { 1, 2, 1};
     }
 }

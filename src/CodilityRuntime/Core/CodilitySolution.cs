@@ -4,7 +4,7 @@ using System.IO;
 using CodilityRuntime.Loaders;
 using CodilityRuntime.Parsers;
 
-using CodilitySolutionGetter = CodilityRuntime.Core.CodilitySolutionFunc<int, string, int>;
+using CodilitySolutionGetter = CodilityRuntime.Core.CodilitySolutionFunc<int[], int, int[]>;
 
 namespace CodilityRuntime.Core
 {
