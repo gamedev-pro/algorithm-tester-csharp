@@ -25,5 +25,11 @@ namespace CodilityRuntime.Extensions
             }
             return data;
         }
+
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> collection)
+        {
+            var rnd = new Random((int) DateTime.Now.Ticks);
+            return collection.OrderBy(e => rnd.Next());
+        }
     }
 }

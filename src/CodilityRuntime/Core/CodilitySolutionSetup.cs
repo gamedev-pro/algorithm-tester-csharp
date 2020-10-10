@@ -21,7 +21,7 @@ namespace CodilityRuntime.Core
                     Input = new List<object>()
                     {
                         100000,
-                        Enumerable.Range(1, 100000)
+                        Enumerable.Range(1, 100000).Shuffle()
                     },
                     Output = new List<object>() { 100000-1 }
                 },
@@ -30,7 +30,7 @@ namespace CodilityRuntime.Core
                     Input = new List<object>()
                     {
                         100000,
-                        Enumerable.Range(1, 100000).Concat(Enumerable.Range(1, 100000))
+                        Enumerable.Range(1, 100000).Shuffle().Concat(Enumerable.Range(1, 100000).Shuffle())
                     },
                     Output = new List<object>() { 100000-1 }
                 }
