@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-class Solution
+class FrogRiverOne
 {
     public int solution(int X, int[] A)
     {
@@ -30,6 +30,6 @@ class Solution
                 return i;
             }
         }
-        return - 1;
+        return -1;
     }
 }
