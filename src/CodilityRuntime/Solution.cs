@@ -5,9 +5,34 @@ using System.Text;
 
 class Solution
 {
-    public int solution(int[] A, int start, int end)
+    public int solution(int[] A, int k, int m)
     {
-        return new PrefixSum(A).GetSum(start, end);
+        var prefixSum = new PrefixSum(A);
+        var maxCollected = 0;
+
+        //The key is knowing that the mushroom picker should change directions only once.
+        //So we try going 0-m steps right and then the remaining left, and vice-versa, and just store the max sum
+        for (var rightSteps = 0; rightSteps + k < A.Length; ++rightSteps)
+        {
+            var end = k + rightSteps;
+            var stepsActuallyTaken = end - k;
+            var stepsRemaining = m - stepsActuallyTaken;
+            var start = Math.Max(0, end - stepsRemaining);
+
+            maxCollected = Math.Max(maxCollected, prefixSum.GetSum(start, end));
+        }
+
+        for (int leftSteps = 0; k - leftSteps >= 0; leftSteps++)
+        {
+            var start = k - leftSteps;
+            var stepsActuallyTaken = k - start;
+            var stepsRemaining = m - stepsActuallyTaken;
+            var end = Math.Min(A.Length - 1, start + stepsRemaining);
+
+            maxCollected = Math.Max(maxCollected, prefixSum.GetSum(start, end));
+        }
+
+        return maxCollected;
     }
 
     public class PrefixSum
