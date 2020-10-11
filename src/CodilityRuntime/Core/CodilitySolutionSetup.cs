@@ -6,7 +6,7 @@ using CodilityRuntime.Extensions;
 using CodilityRuntime.Loaders;
 using CodilityRuntime.Parsers;
 
-using CodilitySolutionGetter = CodilityRuntime.Core.CodilitySolutionFunc<int[], int[], bool>;
+using CodilitySolutionGetter = CodilityRuntime.Core.CodilitySolutionFunc<int[], int>;
 
 namespace CodilityRuntime.Core
 {

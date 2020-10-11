@@ -5,35 +5,42 @@ using System.Text;
 
 class Solution
 {
-    public bool solution(int[] A, int[] B)
+    public int solution(int[] A)
     {
-        var diff = B.Sum() - A.Sum();
+        var countersA = BuildCounters(A);
 
-        if (diff % 2 == 1)
+        if (!countersA.Any())
         {
-            return false;
+            return 1;
         }
 
-        diff /= 2;
-        var countersA = BuildCounts(A);
-        foreach (var candidateInB in B)
+        for (int n = 1; n < countersA.Count(); n++)
         {
-            var candidateInA = candidateInB - diff;
-            if (candidateInA > 0 && candidateInA < countersA.Count() && countersA.ElementAt(candidateInA) > 0)
+            if (countersA.ElementAt(n) == 0)
             {
-                return true;
+                return n;
             }
         }
 
-        return false;
+        return countersA.Count();
     }
 
-    private IEnumerable<int> BuildCounts(IEnumerable<int> collection)
+    private IEnumerable<int> BuildCounters(IEnumerable<int> collection)
     {
-        var counters = new int[collection.Max() + 1];
+        int n = Math.Max(0, collection.Max() + 1);
+        var counters = new int[n];
+
+        if (counters.Count() == 0)
+        {
+            return counters;
+        }
+
         foreach (var element in collection)
         {
-            counters[element]++;
+            if (element >= 0 && element < n)
+            {
+                ++counters[element];
+            }
         }
 
         return counters;
