@@ -7,22 +7,26 @@ class Solution
 {
     public int solution(int[] A)
     {
-        var countersA = BuildCounters(A);
-
-        if (!countersA.Any())
+        if (A.Count() == 1 )
         {
-            return 1;
+            return A[0] == 1 ? 1 : 0;
         }
 
-        for (int n = 1; n < countersA.Count(); n++)
+        if (A.Max() > A.Length)
         {
-            if (countersA.ElementAt(n) == 0)
+            return 0;
+        }
+
+        var counters = BuildCounters(A);
+
+        for (int i = 1; i <= A.Length; i++)
+        {
+            if (counters.ElementAt(i) != 1)
             {
-                return n;
+                return 0;
             }
         }
-
-        return countersA.Count();
+        return 1;
     }
 
     private IEnumerable<int> BuildCounters(IEnumerable<int> collection)
