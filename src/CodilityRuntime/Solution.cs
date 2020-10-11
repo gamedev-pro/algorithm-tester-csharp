@@ -5,61 +5,13 @@ using System.Text;
 
 class Solution
 {
-    public int solution(int[] A, int k, int m)
+    public int solution(int A, int B, int K)
     {
-        var prefixSum = new PrefixSum(A);
-        var maxCollected = 0;
+        //A + remainder is divisible by K
+        var remainder = A % K;
 
-        //The key is knowing that the mushroom picker should change directions only once.
-        //So we try going 0-m steps right and then the remaining left, and vice-versa, and just store the max sum
-        for (var rightSteps = 0; rightSteps + k < A.Length; ++rightSteps)
-        {
-            var end = k + rightSteps;
-            var stepsActuallyTaken = end - k;
-            var stepsRemaining = m - stepsActuallyTaken;
-            var start = Math.Max(0, end - stepsRemaining);
-
-            maxCollected = Math.Max(maxCollected, prefixSum.GetSum(start, end));
-        }
-
-        for (int leftSteps = 0; k - leftSteps >= 0; leftSteps++)
-        {
-            var start = k - leftSteps;
-            var stepsActuallyTaken = k - start;
-            var stepsRemaining = m - stepsActuallyTaken;
-            var end = Math.Min(A.Length - 1, start + stepsRemaining);
-
-            maxCollected = Math.Max(maxCollected, prefixSum.GetSum(start, end));
-        }
-
-        return maxCollected;
-    }
-
-    public class PrefixSum
-    {
-        public PrefixSum(IEnumerable<int> collection)
-        {
-            BuildPrefixSums(collection);
-        }
-
-        public int GetSum(int start, int end)
-        {
-            if (start < 0 || start > end || end + 1 >= prefixSums.Length)
-            {
-                throw new System.Exception("Out of Range prefix sum exception");
-            }
-            return prefixSums[end + 1] - prefixSums[start];
-        }
-
-        private void BuildPrefixSums(IEnumerable<int> collection)
-        {
-            prefixSums = new int[collection.Count() + 1];
-            for (int i = 1; i < prefixSums.Length; i++)
-            {
-                prefixSums[i] = prefixSums[i - 1] + collection.ElementAt(i - 1);
-            }
-        }
-
-        private int[] prefixSums;
+        //Assuming the first number in the range is divisible by K (A + remainder)
+        //The range of divisible numbers will be the integer division result of (topRange - bottomRange) / K
+        return (remainder == 0 ? 1 : 0) + (B - A + remainder) / K;
     }
 }
