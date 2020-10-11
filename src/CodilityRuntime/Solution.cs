@@ -5,41 +5,37 @@ using System.Text;
 
 class Solution
 {
-    public int[] solution(int N, int[] A)
+    public bool solution(int[] A, int[] B)
     {
-        var counters = new int[N];
-        var currentMaxCounter = 0;
-        var maxCounter = 0;
+        var diff = B.Sum() - A.Sum();
 
-        foreach (var operation in A)
+        if (diff % 2 == 1)
         {
-            if (IsMaxOperation(N, operation))
+            return false;
+        }
+
+        diff /= 2;
+        var countersA = BuildCounts(A);
+        foreach (var candidateInB in B)
+        {
+            var candidateInA = candidateInB - diff;
+            if (candidateInA > 0 && candidateInA < countersA.Count() && countersA.ElementAt(candidateInA) > 0)
             {
-                maxCounter = currentMaxCounter;
-            }
-            else
-            {
-                var x = operation - 1;
-                counters[x] = CalculateCounterValueAtIndex(counters, x, maxCounter) + 1;
-                currentMaxCounter = counters[x] > currentMaxCounter ? counters[x] : currentMaxCounter;
+                return true;
             }
         }
 
-        for (int i = 0; i < N; i++)
+        return false;
+    }
+
+    private IEnumerable<int> BuildCounts(IEnumerable<int> collection)
+    {
+        var counters = new int[collection.Max() + 1];
+        foreach (var element in collection)
         {
-            counters[i] = CalculateCounterValueAtIndex(counters, i, maxCounter);
+            counters[element]++;
         }
 
         return counters;
-    }
-
-    private bool IsMaxOperation(int countersNum, int operation)
-    {
-        return operation == countersNum + 1;
-    }
-
-    private int CalculateCounterValueAtIndex(int[] counters, int counterIndex, int maxCounter)
-    {
-        return counters[counterIndex] < maxCounter ? maxCounter : counters[counterIndex];
     }
 }
