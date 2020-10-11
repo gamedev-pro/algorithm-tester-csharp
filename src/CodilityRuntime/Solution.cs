@@ -5,48 +5,36 @@ using System.Text;
 
 class Solution
 {
-    public int solution(int[] A)
+    public int solution(int[] A, int start, int end)
     {
-        if (A.Count() == 1 )
-        {
-            return A[0] == 1 ? 1 : 0;
-        }
-
-        if (A.Max() > A.Length)
-        {
-            return 0;
-        }
-
-        var counters = BuildCounters(A);
-
-        for (int i = 1; i <= A.Length; i++)
-        {
-            if (counters.ElementAt(i) != 1)
-            {
-                return 0;
-            }
-        }
-        return 1;
+        return new PrefixSum(A).GetSum(start, end);
     }
 
-    private IEnumerable<int> BuildCounters(IEnumerable<int> collection)
+    public class PrefixSum
     {
-        int n = Math.Max(0, collection.Max() + 1);
-        var counters = new int[n];
-
-        if (counters.Count() == 0)
+        public PrefixSum(IEnumerable<int> collection)
         {
-            return counters;
+            BuildPrefixSums(collection);
         }
 
-        foreach (var element in collection)
+        public int GetSum(int start, int end)
         {
-            if (element >= 0 && element < n)
+            if (start < 0 || start > end || end + 1 >= prefixSums.Length)
             {
-                ++counters[element];
+                throw new System.Exception("Out of Range prefix sum exception");
+            }
+            return prefixSums[end + 1] - prefixSums[start];
+        }
+
+        private void BuildPrefixSums(IEnumerable<int> collection)
+        {
+            prefixSums = new int[collection.Count() + 1];
+            for (int i = 1; i < prefixSums.Length; i++)
+            {
+                prefixSums[i] = prefixSums[i - 1] + collection.ElementAt(i - 1);
             }
         }
 
-        return counters;
+        private int[] prefixSums;
     }
 }
