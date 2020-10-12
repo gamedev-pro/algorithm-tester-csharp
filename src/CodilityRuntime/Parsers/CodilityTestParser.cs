@@ -45,13 +45,8 @@ namespace CodilityRuntime.Parsers
             string[] lines = content.Split('\n');
             var inputs = new List<string>();
             var outputs = new List<string>();
-            foreach (var line in lines)
+            foreach (var line in FilterLines(lines))
             {
-                if (line.Length == 0)
-                {
-                    continue;
-                }
-
                 var inputAndOutput = line.Split(';');
 
                 if (inputAndOutput.Length != 2)
@@ -64,6 +59,22 @@ namespace CodilityRuntime.Parsers
             }
 
             return new KeyValuePair<IEnumerable<string>, IEnumerable<string>>(inputs, outputs);
+        }
+
+        IEnumerable<string> FilterLines(string[] lines)
+        {
+            foreach (var line in lines)
+            {
+                if (!ShouldIgnoreLine(line))
+                {
+                    yield return line;
+                }
+            }
+        }
+
+        bool ShouldIgnoreLine(string line)
+        {
+            return line.Length == 0 || (line.Length > 1 && line[0] == '/' && line[1] == '/');
         }
 
         ICodilityTestLoader loader;
