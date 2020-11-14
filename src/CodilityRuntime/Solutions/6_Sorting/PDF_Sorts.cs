@@ -174,4 +174,34 @@ namespace CodilityRuntime.Solutions.Sorting
             Array.Copy(sortedCollection, leftIndex, collectionToSort, leftIndex, rightIndex - leftIndex);
         }
     }
+
+    class BubbleSort
+    {
+        public void Sort(int[] collection)
+        {
+            var didSwap = true;
+
+            while (didSwap)
+            {
+                didSwap = false;
+                var i = 0;
+                var j = 1;
+                for (; j < collection.Length; i++, j++)
+                {
+                    if (collection[j] < collection[i])
+                    {
+                        didSwap = true;
+                        Swap(collection, i, j);
+                    }
+                }
+            }
+        }
+
+        private void Swap(int[] collection, int a, int b)
+        {
+            var temp = collection[b];
+            collection[b] = collection[a];
+            collection[a] = temp;
+        }
+    }
 }
