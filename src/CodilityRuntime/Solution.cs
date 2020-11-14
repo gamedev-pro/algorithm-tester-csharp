@@ -7,6 +7,7 @@ class Solution
 {
     public int[] solution(int[] A)
     {
-        return new CodilityRuntime.Solutions.Sorting.MergeSort().Sort(A).ToArray();
+        new CodilityRuntime.Solutions.Sorting.MergeSort().Sort(A);
+        return A;
     }
 }

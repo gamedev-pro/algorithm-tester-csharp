@@ -71,7 +71,7 @@ namespace CodilityRuntime.Solutions.Sorting
         }
     }
 
-    class MergeSort
+    class MergeSortNoCareForMemory
     {
         public IEnumerable<int> Sort(IEnumerable<int> collection)
         {
@@ -124,6 +124,54 @@ namespace CodilityRuntime.Solutions.Sorting
                     }
                 }
             }
+        }
+    }
+
+    class MergeSort
+    {
+        public void Sort(int[] collection)
+        {
+            var sortedCollection = new int[collection.Length];
+            Sort(collection, sortedCollection, 0, collection.Length - 1);
+        }
+
+        private void Sort(int[] collectionToSort, int[] sortedCollection, int start, int end)
+        {
+            if (start >= end)
+            {
+                return;
+            }
+
+            var mid = (start + end) / 2;
+            Sort(collectionToSort, sortedCollection, start, mid);
+            Sort(collectionToSort, sortedCollection, mid + 1, end);
+            Merge(collectionToSort, sortedCollection, start, mid, end);
+        }
+
+        private void Merge(int[] collectionToSort, int[] sortedCollection, int start, int mid, int end)
+        {
+            var leftIndex = start;
+            var rightIndex = mid + 1;
+            var sortedIndex = leftIndex;
+
+            while (leftIndex <= mid && rightIndex <= end)
+            {
+                if (collectionToSort[leftIndex] < collectionToSort[rightIndex])
+                {
+                    sortedCollection[sortedIndex] = collectionToSort[leftIndex];
+                    ++leftIndex;
+                }
+                else
+                {
+                    sortedCollection[sortedIndex] = collectionToSort[rightIndex];
+                    ++rightIndex;
+                }
+                ++sortedIndex;
+            }
+
+            Array.Copy(collectionToSort, leftIndex, sortedCollection, sortedIndex, mid + 1 - leftIndex);
+            Array.Copy(collectionToSort, rightIndex, sortedCollection, sortedIndex, end + 1 - rightIndex);
+            Array.Copy(sortedCollection, leftIndex, collectionToSort, leftIndex, rightIndex - leftIndex);
         }
     }
 }
