@@ -204,4 +204,59 @@ namespace CodilityRuntime.Solutions.Sorting
             collection[a] = temp;
         }
     }
+
+    class QuickSort
+    {
+        public void Sort(int [] collection)
+        {
+            Sort(collection, 0, collection.Length - 1);
+        }
+
+        private void Sort(int[] collection, int start, int end)
+        {
+            if (start >= end)
+            {
+                return;
+            }
+
+            var pivotIndex = Split(collection, start, end);
+            Sort(collection, start, pivotIndex - 1);
+            Sort(collection, pivotIndex + 1, end);
+        }
+
+        private int Split(int[] collection, int start, int end)
+        {
+            var pivotIndex = ChoosePivot(start, end);
+            var minIndex = start;
+
+            //Move every element < pivot to the left of minIndex
+            for (int i = start; i <= end; i++)
+            {
+                if (collection[i] < collection[pivotIndex])
+                {
+                    Swap(collection, minIndex++, i);
+                }
+            }
+
+            //Swap pivot index and minIndex
+            if (minIndex + 1 < end)
+            {
+                Swap(collection, minIndex, pivotIndex);
+            }
+
+            return minIndex;
+        }
+
+        private int ChoosePivot(int start, int end)
+        {
+            return end;
+        }
+
+        private void Swap(int[] collection, int a, int b)
+        {
+            var temp = collection[b];
+            collection[b] = collection[a];
+            collection[a] = temp;
+        }
+    }
 }

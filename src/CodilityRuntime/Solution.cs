@@ -7,7 +7,7 @@ class Solution
 {
     public int[] solution(int[] A)
     {
-        new CodilityRuntime.Solutions.Sorting.BubbleSort().Sort(A);
+        new CodilityRuntime.Solutions.Sorting.QuickSort().Sort(A);
         return A;
     }
 }
