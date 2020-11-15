@@ -1,74 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 
 class Solution
 {
-    class Circle
-    {
-        public long Center;
-        public long Radius;
-        public long Left { get { return Center - Radius; } }
-        public long Right { get { return Center + Radius; } }
-    }
-
-    /*
-     * Comparer that will choose the left most circle (either by left edge or center)
-     */
-    class LeftMostCircleOrderer : IComparer<Circle>
-    {
-        public int Compare([AllowNull] Circle x, [AllowNull] Circle y)
-        {
-            if (x.Left == y.Left)
-            {
-                return x.Center.CompareTo(y.Center);
-            }
-
-            return x.Left.CompareTo(y.Left);
-        }
-    }
     public int solution(int[] A)
     {
-        /*
-         * 1 - We order the circles by left most edge (or left most position)
-         * 2 - We go over the list of circles, storing the visited circles.
-         *     2.1 - For every circle, the non-repeat intersection count will be equal to the number of visited circles UNLESS
-         *     2.2 - Unless the visited circle's Right is less than the current circle's left, which means the visited circle won't ever
-         *     count as an intersection again, and we can remove it from the list
-         */
-        var circles = A
-            .Select((e, index) => new Circle { Center = index, Radius = e })
-            .ToArray();
-
-        Array.Sort(circles, new LeftMostCircleOrderer());
-
-        var intersectingCircles = new List<Circle>(circles.Length);
-        var intersections = 0;
-        for (int i = 0; i < circles.Length; i++)
+        //N is [0,100_000]
+        //Elements are [-int32,int32], use long
+        if (A.Length > 2)
         {
-            //Go over intersecting circles, and removing the ones that shouldn't be count as an intersection
-            //(any in which Right is less than the current circle's Left)
-            for (int j = intersectingCircles.Count - 1; j >= 0; j--)
+            //Filter <= 0 values (they can't constitute a triangle);
+            var filteredArray = A.Where(e => e > 0).ToArray();
+            Array.Sort(filteredArray);
+
+            /*
+             * For P, Q, R, by sorting the array we guarantee (A[P] + A[R] > A[Q]) and (A[Q] + A[R] > A[P]), because R will be the largest
+             * So we only need to check for A[P] + A[Q] > A[R]
+             * Since it's given that 0 <= P > Q > R, just one for loop on the ordered array will suffice.
+             * And if the sorted array has a triplet, the unsorted one will to, just in a different configuration of P, Q and R
+             */
+            for (int i = 0; i < filteredArray.Length - 2; i++)
             {
-                if (intersectingCircles[j].Right < circles[i].Left)
+                //We check A[P] > A[R] - A[Q] to avoid going over the int32 limit
+                if (filteredArray[i] > filteredArray[i+2] - filteredArray[i + 1])
                 {
-                    intersectingCircles.RemoveAt(j);
+                    return 1;
                 }
             }
-
-            //The non-repeat intersection count will equal que number of elements in the intersection list
-            intersections += intersectingCircles.Count;
-            if (intersections > 1e7)
-            {
-                return -1;
-            }
-
-            //Add ourselves to the possible intersectingCircles for the next run
-            intersectingCircles.Add(circles[i]);
         }
 
-        return intersections;
+        return 0;
     }
 }
