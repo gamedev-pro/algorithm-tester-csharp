@@ -5,32 +5,35 @@ using System.Text;
 
 class Solution
 {
-    public int solution(int[] A)
+    //N is [0,200_000]
+    //S contains only [,(,{,],),}
+    public int solution(string S)
     {
-        //N is [0,100_000]
-        //Elements are [-int32,int32], use long
-        if (A.Length > 2)
+        if (S.Length % 2 != 0)
         {
-            //Filter <= 0 values (they can't constitute a triangle);
-            var filteredArray = A.Where(e => e > 0).ToArray();
-            Array.Sort(filteredArray);
+            return 0;
+        }
 
-            /*
-             * For P, Q, R, by sorting the array we guarantee (A[P] + A[R] > A[Q]) and (A[Q] + A[R] > A[P]), because R will be the largest
-             * So we only need to check for A[P] + A[Q] > A[R]
-             * Since it's given that 0 <= P > Q > R, just one for loop on the ordered array will suffice.
-             * And if the sorted array has a triplet, the unsorted one will to, just in a different configuration of P, Q and R
-             */
-            for (int i = 0; i < filteredArray.Length - 2; i++)
+        var stack = new Stack<char>(S.Length / 2);
+        foreach (var c in S)
+        {
+            if (stack.Count > 0 && closingScopesToOpeningScopes.ContainsKey(c) && stack.Peek() == closingScopesToOpeningScopes[c])
             {
-                //We check A[P] > A[R] - A[Q] to avoid going over the int32 limit
-                if (filteredArray[i] > filteredArray[i+2] - filteredArray[i + 1])
-                {
-                    return 1;
-                }
+                stack.Pop();
+            }
+            else
+            {
+                stack.Push(c);
             }
         }
 
-        return 0;
+        return stack.Count == 0 ? 1 : 0;
     }
+
+    static Dictionary<char, char> closingScopesToOpeningScopes = new Dictionary<char, char>
+    {
+        { ')', '(' },
+        { ']', '[' },
+        { '}', '{' },
+    };
 }
