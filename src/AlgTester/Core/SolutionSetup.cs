@@ -6,8 +6,6 @@ using AlgTester.Extensions;
 using AlgTester.Loaders;
 using AlgTester.Parsers;
 
-using SolutionGetter = AlgTester.Core.SolutionFunc<string, int>;
-
 namespace AlgTester.Core
 {
     public static class SolutionSetup
@@ -36,11 +34,6 @@ namespace AlgTester.Core
             {
                 yield return extraTestCase;
             }
-        }
-
-        public static Func<IEnumerable<object>, IEnumerable<object>> GetSolutionFunction()
-        {
-            return SolutionGetter.Get(new Solution().solution);
         }
     }
 }

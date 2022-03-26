@@ -7,9 +7,9 @@ namespace AlgTester.Core
 {
     public static class SolutionTester
     {	
-        public static void Test()
+        public static void Test(Func<IEnumerable<object>, IEnumerable<object>> solutionFunc)
         {	
-            PrintTestResults(SolutionSetup.GetTestCases(), SolutionSetup.GetSolutionFunction());
+            PrintTestResults(SolutionSetup.GetTestCases(), solutionFunc);
         }
         
         static void PrintTestResults(IEnumerable<TestCase> testSuite, Func<IEnumerable<object>, IEnumerable<object>> func)
