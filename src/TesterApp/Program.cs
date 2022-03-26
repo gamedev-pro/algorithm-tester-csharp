@@ -1,16 +1,14 @@
 ﻿
 using AlgTester.Core;
 
-using SolutionGetter = AlgTester.Core.SolutionFunc<string, int>;
-
 namespace TesterApp
 {
     class Program
     {
         static void Main(string[] args)
         {
-            var solutionFunc = SolutionGetter.Get(new Solution().solution);
-            SolutionTester.Test(solutionFunc);
+            var solutionFunc = SolutionFunc<int[], int, int>.Get(FindRepeatedElement.FindRepeatingElement_Naive);
+            SolutionTester.Test("src/TesterApp/Solutions/FindRepeatedNumber/FindRepeatedElement_TestCases.txt", solutionFunc);
         }
     }
 }

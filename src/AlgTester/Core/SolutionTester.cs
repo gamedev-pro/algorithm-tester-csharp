@@ -1,15 +1,38 @@
 using System;
 using System.Collections.Generic;
-using AlgTester.Core;
 using AlgTester.Extensions;
+using System.IO;
+using AlgTester.Loaders;
+using AlgTester.Parsers;
 
 namespace AlgTester.Core
 {
     public static class SolutionTester
     {	
-        public static void Test(Func<IEnumerable<object>, IEnumerable<object>> solutionFunc)
+        public static void Test(string testFile, Func<IEnumerable<object>, IEnumerable<object>> solutionFunc)
         {	
-            PrintTestResults(SolutionSetup.GetTestCases(), solutionFunc);
+            PrintTestResults(GetTestCases(testFile), solutionFunc);
+        }
+
+        public static IEnumerable<TestCase> GetTestCases(string testFile, IEnumerable<TestCase> extraTestCases = null)
+        {
+            var absPath = Path.GetFullPath(testFile);
+            var loader = new TestFileLoader(absPath);
+            var parser = new TestParser(loader);
+
+            var testSuite = parser.GetTestCases();
+            foreach (var testCase in testSuite)
+            {
+                yield return testCase;
+            }
+
+            if (extraTestCases != null)
+            {	
+                foreach (var extraTestCase in extraTestCases)
+                {
+                    yield return extraTestCase;
+                }
+            }
         }
         
         static void PrintTestResults(IEnumerable<TestCase> testSuite, Func<IEnumerable<object>, IEnumerable<object>> func)
