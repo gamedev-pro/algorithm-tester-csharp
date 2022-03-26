@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CodilityRuntime.Solutions._4_CountingElements
+namespace AlgTester.Solutions._4_CountingElements
 {
     class MissingInteger
     {

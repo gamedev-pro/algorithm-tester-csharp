@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CodilityRuntime.Solutions
+namespace AlgTester.Solutions
 {
     class OddArray
     {

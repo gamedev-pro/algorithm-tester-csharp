@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CodilityRuntime.Solutions.Extras.CoreDataStructs
+namespace AlgTester.Solutions.Extras.CoreDataStructs
 {
     class HashSetWithDoubleList<T> : IEnumerable<T>
     {

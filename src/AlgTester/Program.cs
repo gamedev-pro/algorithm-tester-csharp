@@ -1,26 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using CodilityRuntime.Core;
-using CodilityRuntime.Extensions;
-using Newtonsoft.Json;
+using AlgTester.Core;
+using AlgTester.Extensions;
 
-namespace CodilityRuntime
+namespace AlgTester
 {
     class Program
     {
         static void Main(string[] args)
         {
-            PrintTestResults(CodilitySolutionSetup.GetTestCases(), CodilitySolutionSetup.GetSolutionFunction());
+            PrintTestResults(SolutionSetup.GetTestCases(), SolutionSetup.GetSolutionFunction());
         }
 
-        static void PrintTestResults(IEnumerable<CodilityTestCase> testSuite, Func<IEnumerable<object>, IEnumerable<object>> func)
+        static void PrintTestResults(IEnumerable<TestCase> testSuite, Func<IEnumerable<object>, IEnumerable<object>> func)
         {
             if (func == null)
             {
-                throw new System.Exception("Codility solution function is null");
+                throw new System.Exception("solution function is null");
             }
 
-            var comparer = new CodilityOutputComparer<IEnumerable<object>>();
+            var comparer = new AlgTesterOutputComparer<IEnumerable<object>>();
             int testIndex = 0;
             foreach (var testCase in testSuite)
             {

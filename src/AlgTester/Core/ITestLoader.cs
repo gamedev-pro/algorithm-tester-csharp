@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CodilityRuntime.Core
+namespace AlgTester.Core
 {
-    interface ICodilityTestLoader
+    interface ITestLoader
     {
         string GetContent();
     }

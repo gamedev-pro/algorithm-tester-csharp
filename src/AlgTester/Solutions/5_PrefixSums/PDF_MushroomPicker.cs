@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CodilityRuntime.Solutions._5_PrefixSums
+namespace AlgTester.Solutions._5_PrefixSums
 {
     class MushroomPicker
     {

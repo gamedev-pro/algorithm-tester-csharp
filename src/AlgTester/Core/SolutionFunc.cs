@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CodilityRuntime.Core
+namespace AlgTester.Core
 {
-    class CodilitySolutionFunc<T1, TRet>
+    class SolutionFunc<T1, TRet>
     {
         public static Func<IEnumerable<object>, IEnumerable<object>> Get(Func<T1, TRet> func)
         {
@@ -17,7 +17,7 @@ namespace CodilityRuntime.Core
         }
     }
 
-    class CodilitySolutionFunc<T1, T2, TRet>
+    class SolutionFunc<T1, T2, TRet>
     {
         public static Func<IEnumerable<object>, IEnumerable<object>> Get(Func<T1, T2, TRet> func)
         {
@@ -30,7 +30,7 @@ namespace CodilityRuntime.Core
         }
     }
 
-    class CodilitySolutionFunc<T1, T2, T3, TRet>
+    class SolutionFunc<T1, T2, T3, TRet>
     {
         public static Func<IEnumerable<object>, IEnumerable<object>> Get(Func<T1, T2, T3, TRet> func)
         {
@@ -44,7 +44,7 @@ namespace CodilityRuntime.Core
         }
     }
 
-    class CodilitySolutionFunc<T1, T2, T3, T4, TRet>
+    class SolutionFunc<T1, T2, T3, T4, TRet>
     {
         public static Func<IEnumerable<object>, IEnumerable<object>> Get(Func<T1, T2, T3, T4, TRet> func)
         {
@@ -59,7 +59,7 @@ namespace CodilityRuntime.Core
         }
     }
 
-    class CodilitySolutionFunc<T1, T2, T3, T4, T5, TRet>
+    class SolutionFunc<T1, T2, T3, T4, T5, TRet>
     {
         public static Func<IEnumerable<object>, IEnumerable<object>> Get(Func<T1, T2, T3, T4, T5, TRet> func)
         {

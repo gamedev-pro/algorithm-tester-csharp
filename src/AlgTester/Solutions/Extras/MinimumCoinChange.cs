@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CodilityRuntime.Solutions.Extras
+namespace AlgTester.Solutions.Extras
 {
     class MinimumCoinChange
     {

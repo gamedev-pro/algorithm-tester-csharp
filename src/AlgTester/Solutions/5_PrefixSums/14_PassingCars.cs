@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CodilityRuntime.Solutions._5_PrefixSums
+namespace AlgTester.Solutions._5_PrefixSums
 {
     class PassingCars
     {

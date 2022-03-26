@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using CodilityRuntime.Loaders;
-using CodilityRuntime.Core;
+using AlgTester.Loaders;
+using AlgTester.Core;
 using System.Text;
 
-namespace CodilityRuntime.Parsers
+namespace AlgTester.Parsers
 {
-    class CodilityTestParser : ICodilityTestParser
+    class TestParser : ITestParser
     {
-        public CodilityTestParser(ICodilityTestLoader loader)
+        public TestParser(ITestLoader loader)
         {
             this.loader = loader;
         }
 
-        public CodilityTestsSuite GetTestCases()
+        public TestSuite GetTestCases()
         {
-            var testCases = new List<CodilityTestCase>();
+            var testCases = new List<TestCase>();
 
             var inputsAndOutputsRaw = GetInputAndOutputs();
             using (var inputsEnumerator = inputsAndOutputsRaw.Key.GetEnumerator())
@@ -23,14 +23,14 @@ namespace CodilityRuntime.Parsers
             {
                 while (inputsEnumerator.MoveNext() && outputsEnumerator.MoveNext())
                 {
-                    var parsedInput = CodilityTestValueParser.Parse<IEnumerable<object>>(inputsEnumerator.Current);
-                    var parsedOutput = CodilityTestValueParser.Parse<IEnumerable<object>>(outputsEnumerator.Current);
+                    var parsedInput = TestValueParser.Parse<IEnumerable<object>>(inputsEnumerator.Current);
+                    var parsedOutput = TestValueParser.Parse<IEnumerable<object>>(outputsEnumerator.Current);
 
-                    testCases.Add(new CodilityTestCase() { Input = parsedInput, Output = parsedOutput });
+                    testCases.Add(new TestCase() { Input = parsedInput, Output = parsedOutput });
                 }
             }
 
-            return new CodilityTestsSuite(testCases);
+            return new TestSuite(testCases);
         }
 
         KeyValuePair<IEnumerable<string>, IEnumerable<string>> GetInputAndOutputs()
@@ -77,6 +77,6 @@ namespace CodilityRuntime.Parsers
             return line.Length == 0 || (line.Length > 1 && line[0] == '/' && line[1] == '/');
         }
 
-        ICodilityTestLoader loader;
+        ITestLoader loader;
     }
 }

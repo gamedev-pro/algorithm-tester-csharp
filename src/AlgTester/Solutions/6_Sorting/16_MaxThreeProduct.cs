@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CodilityRuntime.Solutions.Sorting
+namespace AlgTester.Solutions.Sorting
 {
     class MaxThreeProduct
     {

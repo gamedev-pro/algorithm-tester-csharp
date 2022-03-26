@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CodilityRuntime.Extensions
+namespace AlgTester.Extensions
 {
     static class LinqExtensions
     {

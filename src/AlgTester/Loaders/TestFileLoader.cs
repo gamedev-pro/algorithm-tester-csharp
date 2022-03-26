@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using CodilityRuntime.Core;
+using AlgTester.Core;
 using System.Text;
 
-namespace CodilityRuntime.Loaders
+namespace AlgTester.Loaders
 {
-    class CodilityTestFileLoader : ICodilityTestLoader
+    class TestFileLoader : ITestLoader
     {
-        public CodilityTestFileLoader(string filePath)
+        public TestFileLoader(string filePath)
         {
             this.filePath = filePath;
         }

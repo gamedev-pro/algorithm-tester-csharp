@@ -1,10 +1,10 @@
-﻿using CodilityRuntime.Extensions;
+﻿using AlgTester.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CodilityRuntime.Solutions.Sorting
+namespace AlgTester.Solutions.Sorting
 {
     class SelectionSort
     {

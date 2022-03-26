@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CodilityRuntime.Solutions.Extras.CoreDataStructs
+namespace AlgTester.Solutions.Extras.CoreDataStructs
 {
     class MapWithDoubleList<TKey, TValue>
     {

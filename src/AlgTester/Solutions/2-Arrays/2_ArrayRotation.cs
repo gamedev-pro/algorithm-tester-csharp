@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CodilityRuntime.Solutions
+namespace AlgTester.Solutions
 {
     class ArrayRotation
     {

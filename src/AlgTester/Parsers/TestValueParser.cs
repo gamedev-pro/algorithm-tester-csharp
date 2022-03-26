@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace CodilityRuntime.Parsers
+namespace AlgTester.Parsers
 {
-    static class CodilityTestValueParser
+    static class TestValueParser
     {
         public static T Parse<T>(string value)
         {
