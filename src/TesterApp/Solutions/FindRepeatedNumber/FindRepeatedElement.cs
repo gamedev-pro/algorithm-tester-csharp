@@ -1,4 +1,6 @@
 
+using AlgTesterRuntime.Core;
+
 namespace TesterApp
 {	
     public class FindRepeatedElement
@@ -8,6 +10,7 @@ namespace TesterApp
         Encontre o índice do número duplicado, sem usar nenhum espaço extra.
         Source: https://www.techiedelight.com/find-duplicate-element-limited-range-array/
         */
+        [Solution]
         public int FindRepeatingElement_Naive(int[] arr)
         {	
             for (int i = 0; i < arr.Length; i++)

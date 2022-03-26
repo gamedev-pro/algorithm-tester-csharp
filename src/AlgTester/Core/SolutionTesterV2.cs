@@ -6,6 +6,7 @@ using System.Reflection;
 using AlgTester.Extensions;
 using AlgTester.Loaders;
 using AlgTester.Parsers;
+using AlgTesterRuntime.Core;
 using Newtonsoft.Json;
 
 namespace AlgTester.Core
@@ -24,38 +25,47 @@ namespace AlgTester.Core
             
         }
         
-        public static SolutionTesterV2 New<TClass, T1>() where TClass : new()
+        public static SolutionTesterV2 New<TClass>() where TClass : new()
         {
             var classType = typeof(TClass);
-            var testFile = TryFindTestSuiteFile<TClass>();
-            if (testFile == null)
-            {
-                throw new System.Exception($"Couldn't find test file for class {classType.Name}.\nTry adding a file named {GetTestFileName<TClass>()} on your project");
-            }
-
             var solutionTester = new SolutionTesterV2();
             solutionTester.solutionClass = classType;
             solutionTester.solutionClassInstance = new TClass();
-            //TODO: remove hardcode
-            solutionTester.solutionMethod = solutionTester.solutionClass.GetMethod("FindRepeatingElement_Naive");
-            solutionTester.testCases = GetTestCases(testFile);
-            solutionTester.runSolutionFunc = (input) =>
-            {
-                T1 typedInput1 = JsonConvert.DeserializeObject<T1>(JsonConvert.SerializeObject(input.ElementAt(0)));
-                var result = solutionTester.solutionMethod.Invoke(solutionTester.solutionClassInstance, new object[] { typedInput1 });
-                return new List<object>() { result };
-            };
+            solutionTester.solutionMethod = FindSolutionMethodAsserted(classType);
             return solutionTester;
         }
         
-        private static string GetTestFileName<TClass>()
+        public SolutionTesterV2 WithAutoTestFile()
+        {	
+            var testFile = TryFindTestSuiteFile();
+            if (testFile == null)
+            {
+                throw new System.Exception($"Couldn't find test file for class {solutionClass.Name}.\nTry adding a file named {GetTestFileName()} on your project");
+            }
+            testCases = GetTestCases(testFile);
+            return this;
+        }
+        
+        public SolutionTesterV2 WithInput<T1>()
+        {	
+            //TODO: Validate input mathes solutionMethod;
+            runSolutionFunc = (input) =>
+            {
+                T1 typedInput1 = JsonConvert.DeserializeObject<T1>(JsonConvert.SerializeObject(input.ElementAt(0)));
+                var result = solutionMethod.Invoke(solutionClassInstance, new object[] { typedInput1 });
+                return new List<object>() { result };
+            };
+            return this;
+        }
+        
+        private string GetTestFileName()
         {
-            return $"{typeof(TClass).Name}_{TestFileSuffix}";
+            return $"{solutionClass.Name}_{TestFileSuffix}";
         }
 
-        private static string TryFindTestSuiteFile<TClass>()
+        private string TryFindTestSuiteFile()
         {
-            var files = Directory.GetFiles(Directory.GetCurrentDirectory(), GetTestFileName<TClass>(), SearchOption.AllDirectories);
+            var files = Directory.GetFiles(Directory.GetCurrentDirectory(), GetTestFileName(), SearchOption.AllDirectories);
             return files.FirstOrDefault();
         }
         
@@ -103,6 +113,20 @@ namespace AlgTester.Core
                     yield return extraTestCase;
                 }
             }
+        }
+        private static MethodInfo FindSolutionMethodAsserted(Type type)
+        {
+            var methods = type.GetMethods().Where(m => m.IsDefined(typeof(SolutionAttribute)));
+            if (!methods.Any())
+            {
+                throw new EntryPointNotFoundException($"Solution method not found on class {type}");
+            }
+            if (methods.Count() > 1)
+            {
+                var methodsStr = string.Join('\n', methods.Select(m => m.Name));
+                throw new AmbiguousMatchException($"More than one method with [Solution] attribute in class {type}. Found:\n{methodsStr}");
+            }
+            return methods.First();
         }
     }
 }
