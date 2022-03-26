@@ -8,11 +8,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{772E6F7D-9D0
 		test_cases.txt = test_cases.txt
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodilityRuntime", "src\CodilityRuntime\CodilityRuntime.csproj", "{C08BA613-A873-4DB7-92BA-81CF973BCDA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlgTester", "src\AlgTester\AlgTester.csproj", "{C08BA613-A873-4DB7-92BA-81CF973BCDA0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{E20BD4F5-30DD-42DD-9FB7-76625A3B444E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodilityRuntime.Tests", "test\CodilityRuntime.Tests\CodilityRuntime.Tests.csproj", "{C72A01BF-A677-48FE-B572-F6D1EDBEC8A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlgTester.Tests", "test\AlgTester.Tests\AlgTester.Tests.csproj", "{C72A01BF-A677-48FE-B572-F6D1EDBEC8A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -3,7 +3,6 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <IsPackable>false</IsPackable>
     <FileUpgradeFlags>40</FileUpgradeFlags>
-    <UpgradeBackupLocation>C:\Dev\projects\csharp\codility-solutions-csharp\Backup\test\CodilityRuntime.Tests\</UpgradeBackupLocation>
     <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
   <ItemGroup>
@@ -13,6 +12,6 @@
     <PackageReference Include="coverlet.collector" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CodilityRuntime\CodilityRuntime.csproj" />
+    <ProjectReference Include="..\..\src\AlgTester\AlgTester.csproj" />
   </ItemGroup>
 </Project>

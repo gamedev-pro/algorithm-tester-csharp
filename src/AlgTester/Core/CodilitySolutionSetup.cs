@@ -22,7 +22,7 @@ namespace CodilityRuntime.Core
 
         public static IEnumerable<CodilityTestCase> GetTestCases()
         {
-            var loader = new CodilityTestFileLoader(Path.Combine(Directory.GetCurrentDirectory(), "../../../../../test_cases.txt").ToString());
+            var loader = new CodilityTestFileLoader(Path.Combine(Directory.GetCurrentDirectory(), "../../test_cases.txt").ToString());
             var parser = new CodilityTestParser(loader);
 
             var testSuite = parser.GetTestCases();
