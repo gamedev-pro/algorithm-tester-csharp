@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using AlgTester.Extensions;
 using System.IO;
+using AlgTester.Extensions;
 using AlgTester.Loaders;
 using AlgTester.Parsers;
 
