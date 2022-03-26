@@ -12,6 +12,7 @@ namespace AlgTester.Core
 {
     public class SolutionTesterV2
     {
+        private const string TestFileSuffix = "Tests.txt";
         private Type solutionClass;
         private object solutionClassInstance;
         private MethodInfo solutionMethod;
@@ -23,10 +24,17 @@ namespace AlgTester.Core
             
         }
         
-        public static SolutionTesterV2 New<TClass, T1>(string testFile) where TClass : new()
+        public static SolutionTesterV2 New<TClass, T1>() where TClass : new()
         {
+            var classType = typeof(TClass);
+            var testFile = TryFindTestSuiteFile<TClass>();
+            if (testFile == null)
+            {
+                throw new System.Exception($"Couldn't find test file for class {classType.Name}.\nTry adding a file named {GetTestFileName<TClass>()} on your project");
+            }
+
             var solutionTester = new SolutionTesterV2();
-            solutionTester.solutionClass = typeof(TClass);
+            solutionTester.solutionClass = classType;
             solutionTester.solutionClassInstance = new TClass();
             //TODO: remove hardcode
             solutionTester.solutionMethod = solutionTester.solutionClass.GetMethod("FindRepeatingElement_Naive");
@@ -38,6 +46,17 @@ namespace AlgTester.Core
                 return new List<object>() { result };
             };
             return solutionTester;
+        }
+        
+        private static string GetTestFileName<TClass>()
+        {
+            return $"{typeof(TClass).Name}_{TestFileSuffix}";
+        }
+
+        private static string TryFindTestSuiteFile<TClass>()
+        {
+            var files = Directory.GetFiles(Directory.GetCurrentDirectory(), GetTestFileName<TClass>(), SearchOption.AllDirectories);
+            return files.FirstOrDefault();
         }
         
         public void Run()
