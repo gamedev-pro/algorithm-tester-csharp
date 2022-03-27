@@ -5,26 +5,30 @@ using System.Linq;
 using AlgTester.Loaders;
 using AlgTester.Parsers;
 using AlgTester.Presentation;
+using AlgTester.Core;
 
-namespace AlgTester.Core
+namespace AlgTester.API
 {
     public struct SolutionTesterBuilder
     {	
         private const string TestFileSuffix = "Tests.txt";
-        internal SolutionTester SolutionTester;
+        private string testFileName;
+        internal string solutionClassName;
+        internal string solutionMethodName;
+        internal SolutionTestSuiteRunner SolutionTester;
         public SolutionTesterBuilder WithAutoTestFile()
         {	
             var testFile = TryFindTestSuiteFile();
             if (testFile == null)
             {
-                throw new System.Exception($"Couldn't find test file for class {SolutionTester.solutionClassName}.\nTry adding a file named {GetTestFileName()} on your project");
+                throw new System.Exception($"Couldn't find test file for class {solutionClassName}.\nTry adding a file named {GetTestFileName()} on your project");
             }
             return WithTestFile(testFile);
         }
         
         public SolutionTesterBuilder WithTestFile(string filePath)
         {
-            SolutionTester.testFileName = Path.GetFileName(filePath);
+            testFileName = Path.GetFileName(filePath);
             SolutionTester.fileTestCases = GetTestCases(filePath);
             return this;
         }
@@ -34,7 +38,7 @@ namespace AlgTester.Core
             SolutionTester.extraTestCases = tests;
             return this;
         }
-        public SolutionTester Build()
+        public SolutionTestSuiteRunner Build()
         {
             if (!SolutionTester.fileTestCases.Any() && !SolutionTester.extraTestCases.Any())
             {
@@ -42,7 +46,7 @@ namespace AlgTester.Core
             }
             if (SolutionTester.presenter == null)
             {
-                WithPresenter(new TestResultsConsolePresenter());
+                WithPresenter(new TestResultsConsolePresenter(testFileName));
             }
             return SolutionTester;
         }
@@ -54,7 +58,7 @@ namespace AlgTester.Core
 
         private string GetTestFileName()
         {
-            return $"{SolutionTester.solutionClassName}_{TestFileSuffix}";
+            return $"{solutionClassName}_{TestFileSuffix}";
         }
 
         private string TryFindTestSuiteFile()

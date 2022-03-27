@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using AlgTester.Loaders;
+﻿using System.Collections.Generic;
 using AlgTester.Core;
-using System.Text;
 
 namespace AlgTester.Parsers
 {

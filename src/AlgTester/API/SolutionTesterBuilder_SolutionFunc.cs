@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using AlgTester.Core;
 
-namespace AlgTester.Core
+namespace AlgTester.API
 {
     public struct SolutionTesterBuilder_SolutionFunc
     {
-        internal SolutionTester SolutionTester;
+        internal SolutionTestSuiteRunner SolutionTester;
 
         public SolutionTesterBuilder WithSolution<T1, TRet>(Func<T1, TRet> func)
         {
@@ -52,12 +53,12 @@ namespace AlgTester.Core
         
         private SolutionTesterBuilder WithRunSolutionFunc(Delegate func, Func<IEnumerable<object>, IEnumerable<object>> runSolutionFunc)
         {	
-            SolutionTester.solutionMethodName = func.Method.Name;
-            SolutionTester.solutionClassName = func.Method.DeclaringType.Name;
             SolutionTester.runSolutionFunc = runSolutionFunc;
             return new SolutionTesterBuilder
             {
-                SolutionTester = SolutionTester
+                SolutionTester = SolutionTester,
+                solutionClassName = func.Method.DeclaringType.Name,
+                solutionMethodName = func.Method.Name
             };
         }
     }

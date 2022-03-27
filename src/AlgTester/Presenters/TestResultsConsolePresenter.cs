@@ -6,7 +6,7 @@ using AlgTester.Extensions;
 
 namespace AlgTester.Presentation
 {
-    public struct TestResultsConsolePresenter : ITestResultsPresenter
+    public class TestResultsConsolePresenter : ITestResultsPresenter
     {
         private string testFileName;
         public TestResultsConsolePresenter(string testFileName)

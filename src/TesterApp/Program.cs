@@ -1,4 +1,4 @@
-﻿using AlgTester.Core;
+﻿using AlgTester.API;
 
 namespace TesterApp
 {

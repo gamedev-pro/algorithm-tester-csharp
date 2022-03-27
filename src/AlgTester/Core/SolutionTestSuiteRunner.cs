@@ -1,37 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AlgTester.Extensions;
 
 namespace AlgTester.Core
 {
-    public partial class SolutionTester
+    public class SolutionTestSuiteRunner
     {
         internal Func<IEnumerable<object>, IEnumerable<object>> runSolutionFunc;
-
-        internal string testFileName;
         internal IEnumerable<TestCase> fileTestCases;
         internal IEnumerable<TestCase> extraTestCases;
-
-        internal string solutionClassName;
-        internal string solutionMethodName;
-
         internal ITestResultsPresenter presenter;
 
-        internal SolutionTester()
+        internal SolutionTestSuiteRunner()
         {	
-            
-        }
-        
-        public static SolutionTesterBuilder_SolutionFunc New()
-        {
-            var solutionTester = new SolutionTester();
-            solutionTester.fileTestCases = Enumerable.Empty<TestCase>();
-            solutionTester.extraTestCases = Enumerable.Empty<TestCase>();
-            return new SolutionTesterBuilder_SolutionFunc
-            {
-                SolutionTester = solutionTester
-            };
         }
         
         public void Run()
@@ -46,7 +27,6 @@ namespace AlgTester.Core
             var extraTestResults = RunSuite(extraTestCases, comparer, runSolutionFunc);
             presenter.Present(fileTestResults, extraTestResults);
         }
-        
         
         private static IEnumerable<AlgTestResult> RunSuite(
             IEnumerable<TestCase> testSuite,
