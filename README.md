@@ -3,7 +3,12 @@
 
 ## Installation
 
-TODO
+- Go your .csproj file and add
+```
+  <ItemGroup>
+    <PackageReference Include="GameDevPro.AlgTester" Version="1.0.0" />
+  </ItemGroup>
+```
 
 ## How to use
 
