@@ -7,17 +7,18 @@ namespace AlgTester.Core
 {
     public partial class SolutionTester
     {
-        private const string TestFileSuffix = "Tests.txt";
-        private Func<IEnumerable<object>, IEnumerable<object>> runSolutionFunc;
+        internal Func<IEnumerable<object>, IEnumerable<object>> runSolutionFunc;
 
-        private string testFileName;
-        private IEnumerable<TestCase> fileTestCases;
-        private IEnumerable<TestCase> extraTestCases;
+        internal string testFileName;
+        internal IEnumerable<TestCase> fileTestCases;
+        internal IEnumerable<TestCase> extraTestCases;
 
-        private string solutionClassName;
-        private string solutionMethodName;
+        internal string solutionClassName;
+        internal string solutionMethodName;
 
-        private SolutionTester()
+        internal ITestResultsPresenter presenter;
+
+        internal SolutionTester()
         {	
             
         }
@@ -42,34 +43,10 @@ namespace AlgTester.Core
 
             var comparer = new AlgTesterOutputComparer<IEnumerable<object>>();
             var fileTestResults = RunSuite(fileTestCases, comparer, runSolutionFunc);
-            PresentTestSuiteResults($"{testFileName}", fileTestResults);
-
             var extraTestResults = RunSuite(extraTestCases, comparer, runSolutionFunc);
-            PresentTestSuiteResults("Extra", extraTestResults);
-            Console.WriteLine("\n\n");
+            presenter.Present(fileTestResults, extraTestResults);
         }
         
-        private static void PresentTestSuiteResults(string suiteName, IEnumerable<AlgTestResult> results)
-        {
-            if (!results.Any())
-            {
-                return;
-            }
-
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine($"\n*****\nResults for Test Suite: {suiteName}\n\n*****\n");
-            foreach (var testResult in results)
-            {
-                Console.ForegroundColor = testResult.Passed ? ConsoleColor.Green : ConsoleColor.Red;
-                Console.WriteLine(
-                    string.Format("Test {0}: Input = {1}, Expected = {2}, Actual = {3}", 
-                    testResult.Index,
-                    testResult.TestCase.Input.ToOutputString(),
-                    testResult.TestCase.Output.ToOutputString(),
-                    testResult.Actual.ToOutputString())
-                );
-            }
-        }
         
         private static IEnumerable<AlgTestResult> RunSuite(
             IEnumerable<TestCase> testSuite,
