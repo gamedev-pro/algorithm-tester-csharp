@@ -1,11 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using AlgTester.Loaders;
-using AlgTester.Parsers;
-using Newtonsoft.Json;
 
 namespace AlgTester.Core
 {
@@ -16,17 +10,53 @@ namespace AlgTester.Core
             internal SolutionTester SolutionTester;
 
             public SolutionTesterBuilder_TestSuite WithSolution<T1, TRet>(Func<T1, TRet> func)
+            {
+                return WithRunSolutionFunc(
+                    (Delegate)func,
+                    SolutionFunc.Get(func)
+                );
+            }
+            public SolutionTesterBuilder_TestSuite WithSolution<T1, T2, TRet>(Func<T1, T2, TRet> func)
+            {
+                return WithRunSolutionFunc(
+                    (Delegate)func,
+                    SolutionFunc.Get(func)
+                );
+            }
+            public SolutionTesterBuilder_TestSuite WithSolution<T1, T2, T3, TRet>(Func<T1, T2, T3, TRet> func)
+            {
+                return WithRunSolutionFunc(
+                    (Delegate)func,
+                    SolutionFunc.Get(func)
+                );
+            }
+            public SolutionTesterBuilder_TestSuite WithSolution<T1, T2, T3, T4, TRet>(Func<T1, T2, T3, T4, TRet> func)
+            {
+                return WithRunSolutionFunc(
+                    (Delegate)func,
+                    SolutionFunc.Get(func)
+                );
+            }
+            public SolutionTesterBuilder_TestSuite WithSolution<T1, T2, T3, T4, T5, TRet>(Func<T1, T2, T3, T4, T5, TRet> func)
+            {
+                return WithRunSolutionFunc(
+                    (Delegate)func,
+                    SolutionFunc.Get(func)
+                );
+            }
+            public SolutionTesterBuilder_TestSuite WithSolution<T1, T2, T3, T4, T5, T6, TRet>(Func<T1, T2, T3, T4, T5, T6, TRet> func)
+            {
+                return WithRunSolutionFunc(
+                    (Delegate)func,
+                    SolutionFunc.Get(func)
+                );
+            }
+            
+            private SolutionTesterBuilder_TestSuite WithRunSolutionFunc(Delegate func, Func<IEnumerable<object>, IEnumerable<object>> runSolutionFunc)
             {	
-                var del = (Delegate)func;
-                SolutionTester.solutionMethodName = del.Method.Name;
-                SolutionTester.solutionClassName = del.Method.DeclaringType.Name;
-
-                SolutionTester.runSolutionFunc = (input) =>
-                {
-                    T1 typedInput1 = JsonConvert.DeserializeObject<T1>(JsonConvert.SerializeObject(input.ElementAt(0)));
-                    return new List<object>() { func(typedInput1) };
-                };
-
+                SolutionTester.solutionMethodName = func.Method.Name;
+                SolutionTester.solutionClassName = func.Method.DeclaringType.Name;
+                SolutionTester.runSolutionFunc = runSolutionFunc;
                 return new SolutionTesterBuilder_TestSuite
                 {
                     SolutionTester = SolutionTester

@@ -37,6 +37,21 @@ namespace AlgTester.Core
                 SolutionTester.extraTestCases = tests;
                 return this;
             }
+            public SolutionTester Build()
+            {
+                if (!SolutionTester.fileTestCases.Any() && !SolutionTester.extraTestCases.Any())
+                {
+                    return WithAutoTestFile().Build();
+                }
+                //TODO: Check everything is valid?
+                return SolutionTester;
+            }
+            
+            public void Run()
+            {
+                Build().Run();
+            }
+
             private string GetTestFileName()
             {
                 return $"{SolutionTester.solutionClassName}_{TestFileSuffix}";
@@ -48,7 +63,7 @@ namespace AlgTester.Core
                 return files.FirstOrDefault();
             }
 
-            public IEnumerable<TestCase> GetTestCases(string testFile, IEnumerable<TestCase> extraTestCases = null)
+            private IEnumerable<TestCase> GetTestCases(string testFile, IEnumerable<TestCase> extraTestCases = null)
             {
                 var absPath = Path.GetFullPath(testFile);
                 Debug.Assert(File.Exists(absPath), $"Couldn't find test file for path: {absPath}");
@@ -68,17 +83,6 @@ namespace AlgTester.Core
                         yield return extraTestCase;
                     }
                 }
-            }
-            
-            public SolutionTester Build()
-            {
-                //TODO: Check everything is valid?
-                return SolutionTester;
-            }
-            
-            public void Run()
-            {
-                Build().Run();
             }
         }
     }

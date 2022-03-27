@@ -1,5 +1,4 @@
-﻿
-using AlgTester.Core;
+﻿using AlgTester.Core;
 
 namespace TesterApp
 {
@@ -10,7 +9,6 @@ namespace TesterApp
             var solutionFunc = FindRepeatedElement.FindRepeatingElement_Naive;
             SolutionTester.New()
                 .WithSolution(solutionFunc)
-                .WithAutoTestFile()
                 .Run();
         }
     }
