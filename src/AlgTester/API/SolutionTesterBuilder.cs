@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using AlgTester.Core;
@@ -9,14 +8,15 @@ using AlgTester.Presentation;
 
 namespace AlgTester.API
 {
-    public struct SolutionTesterBuilder
+    public abstract class SolutionTesterBuilder
     {	
         private const string TestFileSuffix = "Tests.txt";
-        private string testFileName;
+        protected string testFileName;
         internal string solutionClassName;
         internal string solutionMethodName;
         internal SolutionTestSuiteRunner SolutionTester;
-        public SolutionTesterBuilder WithAutoTestFile()
+        
+        protected SolutionTesterBuilder WithAutoTestFile()
         {	
             var testFile = TryFindTestSuiteFile();
             if (testFile == null)
@@ -26,18 +26,22 @@ namespace AlgTester.API
             return WithTestFile(testFile);
         }
         
-        public SolutionTesterBuilder WithTestFile(string filePath)
+        protected SolutionTesterBuilder WithTestFile(string filePath)
         {
             testFileName = Path.GetFileName(filePath);
             SolutionTester.fileTestCases = GetTestCases(filePath);
             return this;
         }
-        
-        public SolutionTesterBuilder WithTestCases(IEnumerable<TestCase> tests)
+        protected SolutionTesterBuilder WithTestCase(object[] intputs, object[] outputs)
         {
-            SolutionTester.extraTestCases = tests;
+            SolutionTester.extraTestCases = SolutionTester.extraTestCases.Append(new TestCase
+            {
+                Input = intputs,
+                Output = outputs
+            });
             return this;
         }
+        
         public SolutionTestSuiteRunner Build()
         {
             if (!SolutionTester.fileTestCases.Any() && !SolutionTester.extraTestCases.Any())
@@ -46,7 +50,7 @@ namespace AlgTester.API
             }
             if (SolutionTester.presenter == null)
             {
-                WithPresenter(new TestResultsConsolePresenter(testFileName));
+                WithPresenter(new TestResultsConsolePresenter(testFileName, solutionMethodName));
             }
             return SolutionTester;
         }
@@ -91,7 +95,7 @@ namespace AlgTester.API
                 }
             }
         }
-        public SolutionTesterBuilder WithPresenter(ITestResultsPresenter presenter)
+        protected SolutionTesterBuilder WithPresenter(ITestResultsPresenter presenter)
         {
             SolutionTester.presenter = presenter;
             return this;

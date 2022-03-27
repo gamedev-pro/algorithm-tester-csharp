@@ -9,9 +9,11 @@ namespace AlgTester.Presentation
     public class TestResultsConsolePresenter : ITestResultsPresenter
     {
         private string testFileName;
-        public TestResultsConsolePresenter(string testFileName)
+        private string solutionMethodName;
+        public TestResultsConsolePresenter(string testFileName, string solutionMethodName)
         {
             this.testFileName = testFileName;
+            this.solutionMethodName = solutionMethodName;
         }
 
         private static void PresentTestSuiteResults(string suiteName, IEnumerable<AlgTestResult> results)
@@ -22,7 +24,7 @@ namespace AlgTester.Presentation
             }
 
             Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine($"\n*****\nResults for Test Suite: {suiteName}\n\n*****\n");
+            Console.WriteLine($"Results for Test Suite: {suiteName}\n");
             foreach (var testResult in results)
             {
                 Console.ForegroundColor = testResult.Passed ? ConsoleColor.Green : ConsoleColor.Red;
@@ -38,8 +40,10 @@ namespace AlgTester.Presentation
 
         public void Present(IEnumerable<AlgTestResult> fileTestResults, IEnumerable<AlgTestResult> extraTestResults)
         {
+            Console.WriteLine($"\n*****\nTest Suite for {solutionMethodName}\n\n*****");
             PresentTestSuiteResults(testFileName, fileTestResults);
-            PresentTestSuiteResults("Extra", extraTestResults);
+            Console.WriteLine("\n");
+            PresentTestSuiteResults("Manual", extraTestResults);
             Console.WriteLine("\n\n");
         }
     }

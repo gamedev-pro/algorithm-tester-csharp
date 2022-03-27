@@ -12,6 +12,7 @@
     <PackageTags>environment; framework; kata; leetcode; testing-tools; utility-library; leetcode-solutions; coding-challenges; leetcode-csharp; practice-programming; arrays-and-strings; algorithms; Algorithms Challenges; Coding Challenge; Coding Challenge Solutions; CCEasy; Technical Interview; Codility; HackerRank; LeetCode;</PackageTags>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <RepositoryUrl>https://github.com/gamedev-pro/algorithm-tester-csharp.git</RepositoryUrl>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
