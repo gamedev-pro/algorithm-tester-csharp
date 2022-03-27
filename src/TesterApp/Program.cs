@@ -18,7 +18,8 @@ namespace TesterApp
             var solutionFunc = FindRepeatedElement.FindRepeatingElement_Naive;
             SolutionTesterV2.New()
                 .WithSolution(solutionFunc)
-                .WithAutoTestFile()
+                /* .WithAutoTestFile() */
+                .WithTestFile("src/TesterApp/Solutions/FindRepeatedNumber/FindRepeatedElement_Tests.txt")
                 .Run();
         }
     }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -38,6 +39,12 @@ namespace AlgTester.Core
                 throw new System.Exception($"Couldn't find test file for class {solutionClassName}.\nTry adding a file named {GetTestFileName()} on your project");
             }
             testCases = GetTestCases(testFile);
+            return this;
+        }
+        
+        public SolutionTesterV2 WithTestFile(string filePath)
+        {
+            testCases = GetTestCases(filePath);
             return this;
         }
         
@@ -94,6 +101,7 @@ namespace AlgTester.Core
         public static IEnumerable<TestCase> GetTestCases(string testFile, IEnumerable<TestCase> extraTestCases = null)
         {
             var absPath = Path.GetFullPath(testFile);
+            Debug.Assert(File.Exists(absPath), $"Couldn't find test file for path: {absPath}");
             var loader = new TestFileLoader(absPath);
             var parser = new TestParser(loader);
 
