@@ -42,7 +42,8 @@ namespace AlgTester.Presentation
         {
             Console.WriteLine($"\n*****\nTest Suite for {solutionMethodName}\n\n*****");
             PresentTestSuiteResults(testFileName, fileTestResults);
-            PresentTestSuiteResults("Extra", extraTestResults);
+            Console.WriteLine("\n");
+            PresentTestSuiteResults("Manual", extraTestResults);
             Console.WriteLine("\n\n");
         }
     }

@@ -9,6 +9,8 @@ namespace TesterApp
             var solutionFunc = FindRepeatedElement.FindRepeatingElement_Naive;
             SolutionTester.New()
                 .WithSolution(solutionFunc)
+                .WithAutoTestFile()
+                .WithTestCase(new int[] { 1, 1, 3, 4 }, 0)
                 .Run();
         }
     }
