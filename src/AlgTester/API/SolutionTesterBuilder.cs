@@ -46,7 +46,7 @@ namespace AlgTester.API
             }
             if (SolutionTester.presenter == null)
             {
-                WithPresenter(new TestResultsConsolePresenter(testFileName));
+                WithPresenter(new TestResultsConsolePresenter(testFileName, solutionMethodName));
             }
             return SolutionTester;
         }
