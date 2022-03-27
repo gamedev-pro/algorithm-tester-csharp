@@ -12,43 +12,84 @@
 
 ## How to use
 
-### Using a test file
-1. Create a class and function for your coding challenge solution
+You can just create any **static function** for your Coding Challenge and run it like this
+
+- C# 10 and above
+
 ```c#
-public class ExampleSolution
-{
-    public int Solution(int[] arr, int n)
+using AlgTester.API;//Include lib
+
+public static int MyCodingChallengeSolution(int n, int[] arr)
+{	
+    return 0;
+}
+
+// Save the function you want to test in a variable (it will help C# auto resolve the correct method call)
+var solutionFunc = MyCodingChallengeSolution;
+// Run your tests
+SolutionTester.New()
+    .WithSolution(solutionFunc)
+    .WithTestCase(2, new int[] { 1, 3 }, 0) // Type safe Input and output
+    .WithTestCase(3, new int[] { 2, 3, 5 }, 0)
+    .Run();//Run tests!
+```
+
+- C# 9 and below
+
+```c#
+using AlgTester.API;//Include lib
+
+public static class Solution
+{	
+    public static int MyCodingChallengeSolution(int n, int[] arr)
     {	
         return 0;
     }
 }
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        var solutionFunc = Solution.MyCodingChallengeSolution;
+        SolutionTester.New()
+            //No implicity generic method resolution for C# 9.0
+            .WithSolution<int, int[], int>(solutionFunc)
+            .WithTestCase(2, new int[] { 1, 3 }, 0) // Type safe Input and output
+            .WithTestCase(3, new int[] { 2, 3, 5 }, 0)
+            .Run();
+    }
+}
 ```
 
-2. Create a test file with the name formar `{SolutionClass}_Tests.txt` (i.e ExampleSolution_Tests.txt), with the following format:
-   - Each test case in one line
-   - Input and outputs are in [] and separated by ;
-   - All base types are supported as expected (i.e 3 is `int`, 3.2 is `float`, "3.2" is `string`)
-   - For instance a test file for the above `ExampleSolution.Solution` function would be
+## Using a Test File
+
+For testing multiple inputs, it's usually much easier to use a separate test file with inputs and outputs.
+
+AlgTester automatically searches for a file matching the following patterns:
+- `{MethodName}_Tests.txt`
+- `{ClassName}_Tests.txt`
+- `{ClassName}_{MethodName}_Tests.txt`
+
+For instance, if we want to use a test file for `MyCodingChallengeSolution`, we can create a file named **MyCodingChallengeSoluiton_Tests.txt** with the following content:
 
 ```
-[ [1, 2, 3 ], 4 ];[ 0 ]
-[ [2, -10, 4 ], 4 ];[ 3 ]
+[ 2, [ 1, 3 ] ];[ 0 ]
+[ 3, [ 2, 3, 5] ];[ 0 ]
 ```
 
-3. Run your solution
+Which would be equivalent to the following in C#
 ```c#
-using AlgTester.API;
+.WithTestCase(2, new int[] { 1, 3 }, 0)
+.WithTestCase(3, new int[] { 2, 3, 5 }, 0)
+```
 
-// Save the function you want to test in a variable (it will help C# auto resolve the correct method call)
-var solutionFunc = ExampleSolution.Solution;
+Then, to run your solution with the test file you just:
+
+```c#
+var solutionFunc = MyCodingChallengeSolution;
 // Run your tests
-// OBS: It will automatically pick a file named ExampleSolution_Tests.txt
 SolutionTester.New()
     .WithSolution(solutionFunc)
-    .Run();
+    .Run();//Alg tester automatically picks up the test file
 ```
-
-4. Expected Output
-
-TODO
-
