@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using AlgTester.Core;
 using AlgTester.Loaders;
 using AlgTester.Parsers;
 using AlgTester.Presentation;
-using AlgTester.Core;
 
 namespace AlgTester.API
 {
@@ -70,7 +70,10 @@ namespace AlgTester.API
         private IEnumerable<TestCase> GetTestCases(string testFile, IEnumerable<TestCase> extraTestCases = null)
         {
             var absPath = Path.GetFullPath(testFile);
-            Debug.Assert(File.Exists(absPath), $"Couldn't find test file for path: {absPath}");
+            if (!File.Exists(absPath))
+            {
+                throw new System.ArgumentException($"Couldn't find test file for path: {absPath}");
+            }
             var loader = new TestFileLoader(absPath);
             var parser = new TestParser(loader);
 
