@@ -20,6 +20,14 @@ namespace TesterApp
                 .WithSolution(solutionFunc)
                 /* .WithAutoTestFile() */
                 .WithTestFile("src/TesterApp/Solutions/FindRepeatedNumber/FindRepeatedElement_Tests.txt")
+                .WithTestCases(new TestCase[]
+                {	
+                    new TestCase
+                    {	
+                        Input = new object[] { new int[] { 1, 2, 3, 4, 4 }},
+                        Output = new object[] { 3 }
+                    }
+                })
                 .Run();
         }
     }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using AlgTester.Extensions;
 using AlgTester.Loaders;
 using AlgTester.Parsers;
@@ -15,7 +14,10 @@ namespace AlgTester.Core
     {
         private const string TestFileSuffix = "Tests.txt";
         private Func<IEnumerable<object>, IEnumerable<object>> runSolutionFunc;
-        private IEnumerable<TestCase> testCases;
+
+        private string testFileName;
+        private IEnumerable<TestCase> fileTestCases;
+        private IEnumerable<TestCase> extraTestCases;
 
         private string solutionClassName;
         private string solutionMethodName;
@@ -28,6 +30,8 @@ namespace AlgTester.Core
         public static SolutionTesterV2 New()
         {
             var solutionTester = new SolutionTesterV2();
+            solutionTester.fileTestCases = Enumerable.Empty<TestCase>();
+            solutionTester.extraTestCases = Enumerable.Empty<TestCase>();
             return solutionTester;
         }
         
@@ -38,13 +42,19 @@ namespace AlgTester.Core
             {
                 throw new System.Exception($"Couldn't find test file for class {solutionClassName}.\nTry adding a file named {GetTestFileName()} on your project");
             }
-            testCases = GetTestCases(testFile);
-            return this;
+            return WithTestFile(testFile);
         }
         
         public SolutionTesterV2 WithTestFile(string filePath)
         {
-            testCases = GetTestCases(filePath);
+            testFileName = Path.GetFileName(filePath);
+            fileTestCases = GetTestCases(filePath);
+            return this;
+        }
+        
+        public SolutionTesterV2 WithTestCases(IEnumerable<TestCase> tests)
+        {
+            extraTestCases = tests;
             return this;
         }
         
@@ -81,21 +91,61 @@ namespace AlgTester.Core
             }
 
             var comparer = new AlgTesterOutputComparer<IEnumerable<object>>();
-            int testIndex = 0;
-            foreach (var testCase in testCases)
+            var fileTestResults = RunSuite(fileTestCases, comparer, runSolutionFunc);
+            PresentTestSuiteResults($"{testFileName}", fileTestResults);
+
+            var extraTestResults = RunSuite(extraTestCases, comparer, runSolutionFunc);
+            PresentTestSuiteResults("Extra", extraTestResults);
+            Console.WriteLine("\n\n");
+        }
+        
+        private static void PresentTestSuiteResults(string suiteName, IEnumerable<AlgTestResult> results)
+        {
+            if (!results.Any())
             {
-                var actual = runSolutionFunc(testCase.Input);
-                var passed = comparer.Equals(actual, testCase.Output);
-                Console.ForegroundColor = passed ? ConsoleColor.Green : ConsoleColor.Red;
+                return;
+            }
+
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine($"\n*****\nResults for Test Suite: {suiteName}\n\n*****\n");
+            foreach (var testResult in results)
+            {
+                Console.ForegroundColor = testResult.Passed ? ConsoleColor.Green : ConsoleColor.Red;
                 Console.WriteLine(
                     string.Format("Test {0}: Input = {1}, Expected = {2}, Actual = {3}", 
-                    testIndex,
-                    testCase.Input.ToOutputString(),
-                    testCase.Output.ToOutputString(),
-                    actual.ToOutputString())
+                    testResult.Index,
+                    testResult.TestCase.Input.ToOutputString(),
+                    testResult.TestCase.Output.ToOutputString(),
+                    testResult.Actual.ToOutputString())
                 );
+            }
+        }
+        
+        private static IEnumerable<AlgTestResult> RunSuite(
+            IEnumerable<TestCase> testSuite,
+            AlgTesterOutputComparer<IEnumerable<object>> comparer,
+            Func<IEnumerable<object>, IEnumerable<object>> solutionFunc
+            )
+        {	
+            int testIndex = 0;
+            var results = Enumerable.Empty<AlgTestResult>();
+            foreach (var testCase in testSuite)
+            {
+                var actual = solutionFunc(testCase.Input);
+                var passed = comparer.Equals(actual, testCase.Output);
+
+                var result = new AlgTestResult
+                {
+                    Index = testIndex,
+                    TestCase = testCase,
+                    Actual = actual,
+                    Passed = passed
+                };
+
+                results = results.Append(result);
                 testIndex++;
             }
+            return results;
         }
 
         public static IEnumerable<TestCase> GetTestCases(string testFile, IEnumerable<TestCase> extraTestCases = null)
