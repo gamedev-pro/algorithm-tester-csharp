@@ -12,14 +12,13 @@ namespace TesterApp
             //Aceita override
             // Talvez troque para mandar classe + attribute + builder pattern (SolutionTester)
 
-
-
             /* var solutionFunc = SolutionFunc<int[], int, int>.Get(FindRepeatedElement.FindRepeatingElement_Naive); */
             /* SolutionTester.Test("src/TesterApp/Solutions/FindRepeatedNumber/FindRepeatedElement_TestCases.txt", solutionFunc); */
 
-            SolutionTesterV2.New<FindRepeatedElement>()
+            var solutionFunc = FindRepeatedElement.FindRepeatingElement_Naive;
+            SolutionTesterV2.New()
+                .WithSolution(solutionFunc)
                 .WithAutoTestFile()
-                .WithInput<int[]>()
                 .Run();
         }
     }

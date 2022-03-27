@@ -6,7 +6,6 @@ using System.Reflection;
 using AlgTester.Extensions;
 using AlgTester.Loaders;
 using AlgTester.Parsers;
-using AlgTesterRuntime.Core;
 using Newtonsoft.Json;
 
 namespace AlgTester.Core
@@ -14,24 +13,20 @@ namespace AlgTester.Core
     public class SolutionTesterV2
     {
         private const string TestFileSuffix = "Tests.txt";
-        private Type solutionClass;
-        private object solutionClassInstance;
-        private MethodInfo solutionMethod;
         private Func<IEnumerable<object>, IEnumerable<object>> runSolutionFunc;
         private IEnumerable<TestCase> testCases;
+
+        private string solutionClassName;
+        private string solutionMethodName;
 
         private SolutionTesterV2()
         {	
             
         }
         
-        public static SolutionTesterV2 New<TClass>() where TClass : new()
+        public static SolutionTesterV2 New()
         {
-            var classType = typeof(TClass);
             var solutionTester = new SolutionTesterV2();
-            solutionTester.solutionClass = classType;
-            solutionTester.solutionClassInstance = new TClass();
-            solutionTester.solutionMethod = FindSolutionMethodAsserted(classType);
             return solutionTester;
         }
         
@@ -40,27 +35,29 @@ namespace AlgTester.Core
             var testFile = TryFindTestSuiteFile();
             if (testFile == null)
             {
-                throw new System.Exception($"Couldn't find test file for class {solutionClass.Name}.\nTry adding a file named {GetTestFileName()} on your project");
+                throw new System.Exception($"Couldn't find test file for class {solutionClassName}.\nTry adding a file named {GetTestFileName()} on your project");
             }
             testCases = GetTestCases(testFile);
             return this;
         }
         
-        public SolutionTesterV2 WithInput<T1>()
+        public SolutionTesterV2 WithSolution<T1, TRet>(Func<T1, TRet> func)
         {	
-            //TODO: Validate input mathes solutionMethod;
+            var del = (Delegate)func;
+            solutionMethodName = del.Method.Name;
+            solutionClassName = del.Method.DeclaringType.Name;
+
             runSolutionFunc = (input) =>
             {
                 T1 typedInput1 = JsonConvert.DeserializeObject<T1>(JsonConvert.SerializeObject(input.ElementAt(0)));
-                var result = solutionMethod.Invoke(solutionClassInstance, new object[] { typedInput1 });
-                return new List<object>() { result };
+                return new List<object>() { func(typedInput1) };
             };
             return this;
         }
         
         private string GetTestFileName()
         {
-            return $"{solutionClass.Name}_{TestFileSuffix}";
+            return $"{solutionClassName}_{TestFileSuffix}";
         }
 
         private string TryFindTestSuiteFile()
@@ -113,20 +110,6 @@ namespace AlgTester.Core
                     yield return extraTestCase;
                 }
             }
-        }
-        private static MethodInfo FindSolutionMethodAsserted(Type type)
-        {
-            var methods = type.GetMethods().Where(m => m.IsDefined(typeof(SolutionAttribute)));
-            if (!methods.Any())
-            {
-                throw new EntryPointNotFoundException($"Solution method not found on class {type}");
-            }
-            if (methods.Count() > 1)
-            {
-                var methodsStr = string.Join('\n', methods.Select(m => m.Name));
-                throw new AmbiguousMatchException($"More than one method with [Solution] attribute in class {type}. Found:\n{methodsStr}");
-            }
-            return methods.First();
         }
     }
 }
