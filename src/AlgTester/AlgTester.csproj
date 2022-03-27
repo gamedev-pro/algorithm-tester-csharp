@@ -3,6 +3,15 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <LangVersion>10</LangVersion>
+    <PackageId>GameDevPro.AlgTester</PackageId>
+    <Authors>Game Dev Pro</Authors>
+    <Company>Game Dev Pro</Company>
+    <Version>1.0.0</Version>
+    <Description>Simple and flexible API to run Coding Challenge solutions in your IDE. Supports test files.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>environment; framework; kata; leetcode; testing-tools; utility-library; leetcode-solutions; coding-challenges; leetcode-csharp; practice-programming; arrays-and-strings; algorithms; Algorithms Challenges; Coding Challenge; Coding Challenge Solutions; CCEasy; Technical Interview; Codility; HackerRank; LeetCode;</PackageTags>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <RepositoryUrl>https://github.com/gamedev-pro/algorithm-tester-csharp.git</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
