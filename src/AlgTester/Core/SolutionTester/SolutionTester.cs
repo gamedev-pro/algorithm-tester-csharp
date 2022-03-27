@@ -1,16 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using AlgTester.Extensions;
-using AlgTester.Loaders;
-using AlgTester.Parsers;
-using Newtonsoft.Json;
 
 namespace AlgTester.Core
 {
-    public class SolutionTester
+    public partial class SolutionTester
     {
         private const string TestFileSuffix = "Tests.txt";
         private Func<IEnumerable<object>, IEnumerable<object>> runSolutionFunc;
@@ -27,60 +22,15 @@ namespace AlgTester.Core
             
         }
         
-        public static SolutionTester New()
+        public static SolutionTesterBuilder_SolutionFunc New()
         {
             var solutionTester = new SolutionTester();
             solutionTester.fileTestCases = Enumerable.Empty<TestCase>();
             solutionTester.extraTestCases = Enumerable.Empty<TestCase>();
-            return solutionTester;
-        }
-        
-        public SolutionTester WithAutoTestFile()
-        {	
-            var testFile = TryFindTestSuiteFile();
-            if (testFile == null)
+            return new SolutionTesterBuilder_SolutionFunc
             {
-                throw new System.Exception($"Couldn't find test file for class {solutionClassName}.\nTry adding a file named {GetTestFileName()} on your project");
-            }
-            return WithTestFile(testFile);
-        }
-        
-        public SolutionTester WithTestFile(string filePath)
-        {
-            testFileName = Path.GetFileName(filePath);
-            fileTestCases = GetTestCases(filePath);
-            return this;
-        }
-        
-        public SolutionTester WithTestCases(IEnumerable<TestCase> tests)
-        {
-            extraTestCases = tests;
-            return this;
-        }
-        
-        public SolutionTester WithSolution<T1, TRet>(Func<T1, TRet> func)
-        {	
-            var del = (Delegate)func;
-            solutionMethodName = del.Method.Name;
-            solutionClassName = del.Method.DeclaringType.Name;
-
-            runSolutionFunc = (input) =>
-            {
-                T1 typedInput1 = JsonConvert.DeserializeObject<T1>(JsonConvert.SerializeObject(input.ElementAt(0)));
-                return new List<object>() { func(typedInput1) };
+                SolutionTester = solutionTester
             };
-            return this;
-        }
-        
-        private string GetTestFileName()
-        {
-            return $"{solutionClassName}_{TestFileSuffix}";
-        }
-
-        private string TryFindTestSuiteFile()
-        {
-            var files = Directory.GetFiles(Directory.GetCurrentDirectory(), GetTestFileName(), SearchOption.AllDirectories);
-            return files.FirstOrDefault();
         }
         
         public void Run()
@@ -124,8 +74,7 @@ namespace AlgTester.Core
         private static IEnumerable<AlgTestResult> RunSuite(
             IEnumerable<TestCase> testSuite,
             AlgTesterOutputComparer<IEnumerable<object>> comparer,
-            Func<IEnumerable<object>, IEnumerable<object>> solutionFunc
-            )
+            Func<IEnumerable<object>, IEnumerable<object>> solutionFunc)
         {	
             int testIndex = 0;
             var results = Enumerable.Empty<AlgTestResult>();
@@ -146,28 +95,6 @@ namespace AlgTester.Core
                 testIndex++;
             }
             return results;
-        }
-
-        public static IEnumerable<TestCase> GetTestCases(string testFile, IEnumerable<TestCase> extraTestCases = null)
-        {
-            var absPath = Path.GetFullPath(testFile);
-            Debug.Assert(File.Exists(absPath), $"Couldn't find test file for path: {absPath}");
-            var loader = new TestFileLoader(absPath);
-            var parser = new TestParser(loader);
-
-            var testSuite = parser.GetTestCases();
-            foreach (var testCase in testSuite)
-            {
-                yield return testCase;
-            }
-
-            if (extraTestCases != null)
-            {	
-                foreach (var extraTestCase in extraTestCases)
-                {
-                    yield return extraTestCase;
-                }
-            }
         }
     }
 }
