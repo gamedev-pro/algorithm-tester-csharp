@@ -1,9 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace AlgTester.Core
 {
+    public interface ITestResultsPresenter
+    {
+        void Present(IEnumerable<AlgTestResult> fileTestResults, IEnumerable<AlgTestResult> extraTestResults);
+    }
+
     interface ITestLoader
     {
         string GetContent();

@@ -1,4 +1,3 @@
-
 namespace TesterApp
 {	
     public static class FindRepeatedElement
@@ -8,7 +7,7 @@ namespace TesterApp
         Encontre o índice do número duplicado, sem usar nenhum espaço extra.
         Source: https://www.techiedelight.com/find-duplicate-element-limited-range-array/
         */
-        public static int FindRepeatingElement_Naive(int[] arr, int testInput)
+        public static int FindRepeatingElement_Naive(int[] arr)
         {	
             for (int i = 0; i < arr.Length; i++)
             {

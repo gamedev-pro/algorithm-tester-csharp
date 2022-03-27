@@ -6,7 +6,7 @@ using System.Text;
 
 namespace AlgTester.Extensions
 {
-    static class LinqExtensions
+    public static class LinqExtensions
     {
         const int MAX_PRINT_LENGTH = 50;
         public static IEnumerable<T> Randomize<T>(this IEnumerable<T> source)
