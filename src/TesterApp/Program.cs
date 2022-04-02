@@ -6,7 +6,7 @@ namespace TesterApp
     {
         static void Main(string[] args)
         {
-            var solutionFunc = FindRepeatedElement.FindRepeatingElement_Naive;
+            var solutionFunc = FindRepeatedElement.Solution;
             SolutionTester.New()
                 .WithSolution(solutionFunc)
                 .WithAutoTestFile()

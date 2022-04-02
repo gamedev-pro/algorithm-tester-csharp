@@ -21,7 +21,8 @@ namespace AlgTester.API
             var testFile = TryFindTestSuiteFile();
             if (testFile == null)
             {
-                throw new System.Exception($"Couldn't find test file for class {solutionClassName}.\nTry adding a file named {GetTestFileName()} on your project");
+                var possibleFileNames = string.Join(',', GetTestFileNames());
+                throw new System.Exception($"Couldn't find test file for class {solutionClassName}.\nTry adding a file named {possibleFileNames} on your project");
             }
             return WithTestFile(testFile);
         }
@@ -60,15 +61,24 @@ namespace AlgTester.API
             Build().Run();
         }
 
-        private string GetTestFileName()
+        private IEnumerable<string> GetTestFileNames()
         {
-            return $"{solutionClassName}_{TestFileSuffix}";
+            yield return $"{solutionClassName}_{solutionMethodName}_{TestFileSuffix}";
+            yield return $"{solutionMethodName}_{TestFileSuffix}";
+            yield return $"{solutionClassName}_{TestFileSuffix}";
         }
 
         private string TryFindTestSuiteFile()
         {
-            var files = Directory.GetFiles(Directory.GetCurrentDirectory(), GetTestFileName(), SearchOption.AllDirectories);
-            return files.FirstOrDefault();
+            foreach (var fileName in GetTestFileNames())
+            {
+                var file = Directory.GetFiles(Directory.GetCurrentDirectory(), fileName, SearchOption.AllDirectories).FirstOrDefault();
+                if (!string.IsNullOrEmpty(file))
+                {
+                    return file;
+                }
+            }
+            return null;
         }
 
         private IEnumerable<TestCase> GetTestCases(string testFile, IEnumerable<TestCase> extraTestCases = null)
