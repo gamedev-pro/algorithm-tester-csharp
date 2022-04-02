@@ -18,6 +18,7 @@ namespace TesterApp
             SolutionTester.New()
                 //No implicity generic method resolution for C# 9.0
                 .WithSolution(solutionFunc)
+                .ShowFailedTestsOnly()
                 .WithTestCase(2, new int[] { 1, 3 }, 0) // Type safe Input and output
                 .WithTestCase(3, new int[] { 2, 3, 5 }, 1) // Another test case (this one will fail)
                 .WithTestCase(3, new int[] { 2, 3, 5 }, 0) // and another :)

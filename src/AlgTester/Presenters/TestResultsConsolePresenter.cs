@@ -8,14 +8,13 @@ namespace AlgTester.Presentation
 {
     public class TestResultsConsolePresenter : ITestResultsPresenter
     {
-        private string solutionMethodName;
-        public TestResultsConsolePresenter(string solutionMethodName)
+        private readonly string solutionMethodName;
+        private readonly bool presentFailedOnly;
+
+        public TestResultsConsolePresenter(string solutionMethodName, bool presentFailedOnly)
         {
             this.solutionMethodName = solutionMethodName;
-        }
-
-        private static void PresentTestSuiteResults(string suiteName, IEnumerable<AlgTestResult> testResults)
-        {
+            this.presentFailedOnly = presentFailedOnly;
         }
 
         public void Present(IEnumerable<AlgTestResult> testResults)
@@ -31,7 +30,7 @@ namespace AlgTester.Presentation
             {	
                 Console.ForegroundColor = ConsoleColor.Gray;
                 Console.WriteLine($"Results for Test Suite: {solutionMethodName}\n");
-                foreach (var testResult in testResults)
+                foreach (var testResult in testResults.Where(t => !presentFailedOnly || !t.Passed))
                 {
                     Console.ForegroundColor = testResult.Passed ? ConsoleColor.Green : ConsoleColor.Red;
                     Console.WriteLine(
