@@ -12,3 +12,5 @@ SolutionTester.New()
     .WithSolution(solutionFunc)
     .WithAutoTestFile()
     .Run();//Run tests!
+
+Program_Dotnet5.Main_Dotnet5(new string[0]);
