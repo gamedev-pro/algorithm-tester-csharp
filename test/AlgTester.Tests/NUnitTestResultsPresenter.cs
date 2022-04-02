@@ -2,12 +2,15 @@ using System.Collections.Generic;
 using System.Linq;
 using AlgTester.Core;
 using AlgTester.Extensions;
+using AlgTester.Presentation;
 using NUnit.Framework;
 
 namespace AlgTester.Tests
 {
     internal class NUnitTestResultsPresenter : ITestResultsPresenter
     {
+        public bool PresentFailedOnly { set => throw new System.NotImplementedException(); }
+
         public void Present(IEnumerable<AlgTestResult> allResults)
         {
             var resultComparer = new AlgTesterOutputComparer<IEnumerable<object>>();
@@ -18,18 +21,16 @@ namespace AlgTester.Tests
         }
     }
 
-    internal class NUnitFilterTestsPresenter : ITestResultsPresenter
+    internal class NUnitFilterTestsPresenter : TestResultsPresenter
     {
         private int expectedResultsCount;
-
         internal NUnitFilterTestsPresenter(int expectedResultsCount)
         {
             this.expectedResultsCount = expectedResultsCount;
         }
-
-        public void Present(IEnumerable<AlgTestResult> allResults)
+        protected override void PresentInternal(IEnumerable<AlgTestResult> filteredTests)
         {
-            Assert.AreEqual(allResults.Count(), expectedResultsCount);
+            Assert.AreEqual(expectedResultsCount, filteredTests.Count());
         }
     }
 }

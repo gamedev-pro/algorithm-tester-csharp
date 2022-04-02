@@ -103,6 +103,7 @@ namespace AlgTester.Tests
                 .WithTestCase(0, 0)
                 .Run(1, 3);
         }
+
         [Test]
         public void RunAllTests_When_NoFilter()
         {
@@ -112,6 +113,23 @@ namespace AlgTester.Tests
                 .WithPresenter(new NUnitFilterTestsPresenter(4))
                 .WithTestCase(0, 0)
                 .WithTestCase(0, 0)
+                .WithTestCase(0, 0)
+                .WithTestCase(0, 0)
+                .Run();
+        }
+
+        [Test]
+        public void ShowOnlyFailed_WhenSpecified()
+        {
+            var s = SolutionTesterTests.Solution;
+            var presenter = new NUnitFilterTestsPresenter(3);
+            SolutionTester.New()
+                .WithSolution(s)
+                .WithPresenter(presenter)
+                .ShowFailedTestsOnly()
+                .WithTestCase(0, 1)
+                .WithTestCase(0, 1)
+                .WithTestCase(0, 1)
                 .WithTestCase(0, 0)
                 .WithTestCase(0, 0)
                 .Run();

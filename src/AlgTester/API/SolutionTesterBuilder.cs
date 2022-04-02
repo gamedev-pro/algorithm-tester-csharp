@@ -54,9 +54,13 @@ namespace AlgTester.API
             return this;
         }
         
-        protected SolutionTesterBuilder ShowFailedTestsOnly()
+        public SolutionTesterBuilder ShowFailedTestsOnly()
         {
-            SolutionTester.presenter = new TestResultsConsolePresenter(solutionMethodName, presentFailedOnly: true);
+            if (SolutionTester.presenter == null)
+            {	
+                SolutionTester.presenter = new TestResultsConsolePresenter(solutionMethodName);
+            }
+            SolutionTester.presenter.PresentFailedOnly = true;
             return this;
         }
         
@@ -68,7 +72,7 @@ namespace AlgTester.API
             }
             if (SolutionTester.presenter == null)
             {
-                WithPresenter(new TestResultsConsolePresenter(solutionMethodName, false));
+                WithPresenter(new TestResultsConsolePresenter(solutionMethodName));
             }
             return SolutionTester;
         }
