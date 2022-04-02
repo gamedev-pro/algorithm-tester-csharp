@@ -65,16 +65,11 @@ class Program
 ```
 
 If you run your project, you should get the following output:
-<div style="background-color:rgba(0, 0, 0, 1); padding:10px 20px;">
-</br>
-<span style="color:rgba(200, 200, 200, 1)">Results for Test Suite: MyCodingChallengeSolution</span>
-</br></br>
-<span style="color:green">Test 0: Input = [2,[1,3]], Expected = [0], Actual = [0]</span></br>
-<span style="color:red">Test 1: Input = [3,[2,3,5]], Expected = [1], Actual = [0]</span></br>
-<span style="color:green">Test 2: Input = [3,[2,3,5]], Expected = [0], Actual = [0]</span>
-</br></br>
-</div>
-
+```diff
++Test 0: Input = [2,[1,3]], Expected = [0], Actual = [0]
+-Test 1: Input = [3,[2,3,5]], Expected = [1], Actual = [0]
++Test 2: Input = [3,[2,3,5]], Expected = [0], Actual = [0]
+```
 
 </br></br>
 
@@ -179,7 +174,7 @@ Which would be equivalent to the following in C#
 .WithTestCase(3, new int[] { 2, 3, 5 }, 0)
 ```
 
-*Note: test files use JSON Notation, see [this section for more details](###String-Test-Case-Rules)*
+*Note: test files use JSON Notation, see [this section for more details](#string-test-case-rules)*
 
 Then, to run your solution with the test file you just:
 
