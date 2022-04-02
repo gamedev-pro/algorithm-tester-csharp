@@ -53,6 +53,15 @@ namespace AlgTester.Tests
         }
 
         [Test]
+        public void Run_WithStringTestCase()
+        {
+            var s = SolutionTesterTests.Solution;
+            SolutionTester.New().WithSolution(s)
+                .WithStringTestCase("[0]", "[0]")
+                .Run();
+        }
+
+        [Test]
         public void Run_WithTestFilePath()
         {
             var s = SolutionTesterTests.Solution;

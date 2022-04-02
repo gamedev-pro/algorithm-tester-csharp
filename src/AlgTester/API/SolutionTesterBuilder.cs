@@ -35,7 +35,7 @@ namespace AlgTester.API
             {	
                 throw new System.ArgumentException($"Couldn't find any test file with name {fileNameOrPath}. Make sure the name is correct and the file is inside your project directory.");
             }
-            SolutionTester.fileTestCases = GetTestCases(fullPath);
+            SolutionTester.fileTestCases = GetTestCases(new TestFileLoader(fullPath));
             return this;
         }
 
@@ -46,6 +46,11 @@ namespace AlgTester.API
                 Input = intputs,
                 Output = outputs
             });
+            return this;
+        }
+        public SolutionTesterBuilder WithStringTestCase(string input, string output)
+        {
+            SolutionTester.extraTestCases = SolutionTester.extraTestCases.Concat(GetTestCases(new TestStringLoader(input, output)));
             return this;
         }
         
@@ -93,21 +98,13 @@ namespace AlgTester.API
             return null;
         }
 
-        private IEnumerable<TestCase> GetTestCases(string fileAbsPath, IEnumerable<TestCase> extraTestCases = null)
+        private IEnumerable<TestCase> GetTestCases(ITestLoader loader)
         {
-            var parser = new TestParser(new TestFileLoader(fileAbsPath));
+            var parser = new TestParser(loader);
             var testSuite = parser.GetTestCases();
             foreach (var testCase in testSuite)
             {
                 yield return testCase;
-            }
-
-            if (extraTestCases != null)
-            {	
-                foreach (var extraTestCase in extraTestCases)
-                {
-                    yield return extraTestCase;
-                }
             }
         }
 

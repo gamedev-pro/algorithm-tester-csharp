@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using AlgTester.Core;
-using System.Text;
 
 namespace AlgTester.Loaders
 {
+
     class TestFileLoader : ITestLoader
     {
         public TestFileLoader(string filePath)
