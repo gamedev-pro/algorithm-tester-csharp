@@ -18,21 +18,27 @@ namespace AlgTester.API
         
         protected SolutionTesterBuilder WithAutoTestFile()
         {	
-            var testFile = TryFindTestSuiteFile();
+            var fileNames = GetDefaultTestFileNames();
+            var testFile = FindSolutionFilePath(fileNames);
             if (testFile == null)
             {
-                var possibleFileNames = string.Join(',', GetTestFileNames());
-                throw new System.Exception($"Couldn't find test file for class {solutionClassName}.\nTry adding a file named {possibleFileNames} on your project");
+                var possibleFileNames = string.Join(',', GetDefaultTestFileNames());
+                throw new System.ArgumentException($"Couldn't find test file for class {solutionClassName}.\nTry adding a file named {possibleFileNames} on your project");
             }
             return WithTestFile(testFile);
         }
         
-        protected SolutionTesterBuilder WithTestFile(string filePath)
+        protected SolutionTesterBuilder WithTestFile(string fileNameOrPath)
         {
-            testFileName = Path.GetFileName(filePath);
-            SolutionTester.fileTestCases = GetTestCases(filePath);
+            var fullPath = FindSolutionFilePath(new string[] { fileNameOrPath });
+            if (string.IsNullOrEmpty(fullPath))
+            {	
+                throw new System.ArgumentException($"Couldn't find any test file with name {fileNameOrPath}. Make sure the name is correct and the file is inside your project directory.");
+            }
+            SolutionTester.fileTestCases = GetTestCases(fullPath);
             return this;
         }
+
         protected SolutionTesterBuilder WithTestCase(object[] intputs, object[] outputs)
         {
             SolutionTester.extraTestCases = SolutionTester.extraTestCases.Append(new TestCase
@@ -61,36 +67,35 @@ namespace AlgTester.API
             Build().Run();
         }
 
-        private IEnumerable<string> GetTestFileNames()
+        private IEnumerable<string> GetDefaultTestFileNames()
         {
             yield return $"{solutionClassName}_{solutionMethodName}_{TestFileSuffix}";
             yield return $"{solutionMethodName}_{TestFileSuffix}";
             yield return $"{solutionClassName}_{TestFileSuffix}";
         }
 
-        private string TryFindTestSuiteFile()
+        private static string FindSolutionFilePath(IEnumerable<string> fileNamesOrPaths)
         {
-            foreach (var fileName in GetTestFileNames())
+            foreach (var fileNameOrPath in fileNamesOrPaths)
             {
-                var file = Directory.GetFiles(Directory.GetCurrentDirectory(), fileName, SearchOption.AllDirectories).FirstOrDefault();
-                if (!string.IsNullOrEmpty(file))
+                if (File.Exists(fileNameOrPath))
                 {
-                    return file;
+                    return fileNameOrPath;
+                }
+                var searchName = fileNameOrPath.Split('/').LastOrDefault();
+
+                var path = Directory.GetFiles(Directory.GetCurrentDirectory(), searchName, SearchOption.AllDirectories).FirstOrDefault();
+                if (!string.IsNullOrEmpty(path))
+                {
+                    return path;
                 }
             }
             return null;
         }
 
-        private IEnumerable<TestCase> GetTestCases(string testFile, IEnumerable<TestCase> extraTestCases = null)
+        private IEnumerable<TestCase> GetTestCases(string fileAbsPath, IEnumerable<TestCase> extraTestCases = null)
         {
-            var absPath = Path.GetFullPath(testFile);
-            if (!File.Exists(absPath))
-            {
-                throw new System.ArgumentException($"Couldn't find test file for path: {absPath}");
-            }
-            var loader = new TestFileLoader(absPath);
-            var parser = new TestParser(loader);
-
+            var parser = new TestParser(new TestFileLoader(fileAbsPath));
             var testSuite = parser.GetTestCases();
             foreach (var testCase in testSuite)
             {
@@ -105,6 +110,7 @@ namespace AlgTester.API
                 }
             }
         }
+
         protected SolutionTesterBuilder WithPresenter(ITestResultsPresenter presenter)
         {
             SolutionTester.presenter = presenter;

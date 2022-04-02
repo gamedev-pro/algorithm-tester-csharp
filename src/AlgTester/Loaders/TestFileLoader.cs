@@ -10,6 +10,10 @@ namespace AlgTester.Loaders
     {
         public TestFileLoader(string filePath)
         {
+            if (!File.Exists(filePath))
+            {
+                throw new System.ArgumentException($"Couldn't find file at path: {filePath}");
+            }
             this.filePath = filePath;
         }
 
