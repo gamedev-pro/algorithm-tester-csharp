@@ -110,8 +110,9 @@ SolutionTester.New()
 
 ## Running specific tests
 
-When debugging a coding challenge, you often want to run only the test cases that are failing. AlgTester supports running only failed tests.
+When debugging a coding challenge, you often want to run only the test cases that are failing, or a subset of all your tests. AlgTester support both of these use cases:
 
+### Running only failed tests
 ```c#
 var solutionFunc = MyCodingChallengeSolution;
 SolutionTester.New()
@@ -120,8 +121,8 @@ SolutionTester.New()
     .WithTestCase(3, new int[] { 2, 3, 5 }, 1)// This test will fail
     .WithTestCase(3, new int[] { 1, 3, 2 }, 0)
     .WithTestCase(10, new int[] { 1, 3, 2 }, 1)// This one will also fail
-    .ShowFailedTestsOnly()
-    .Run();//runs tests with index 1 and 3 (second and forth tests)
+    .ShowFailedTestsOnly()//Run only failed tests
+    .Run();
 ```
 
 You should then get something like this:
@@ -129,18 +130,19 @@ You should then get something like this:
 ```diff
 Results for Test Suite: MyCodingChallengeSolution
 - Test 1: Input = [3,[2,3,5]], Expected = [1], Actual = [0]
-+ Test 3: Input = [10,[1,3,2]], Expected = [0], Actual = [1]
+- Test 3: Input = [10,[1,3,2]], Expected = [1], Actual = [0]
 ```
-You can also run filter tests by index if you like
+
+### Running tests by index
 
 ```c#
 var solutionFunc = MyCodingChallengeSolution;
 SolutionTester.New()
     .WithSolution(solutionFunc)
-    .WithTestCase(2, new int[] { 1, 3 }, 0)
-    .WithTestCase(3, new int[] { 2, 3, 5 }, 1)
-    .WithTestCase(3, new int[] { 1, 3, 2 }, 0)
-    .WithTestCase(10, new int[] { 1, 3, 2 }, 1)
+    .WithTestCase(2, new int[] { 1, 3 }, 0)// index = 0
+    .WithTestCase(3, new int[] { 2, 3, 5 }, 1)// index = 1
+    .WithTestCase(3, new int[] { 1, 3, 2 }, 0)// index = 2
+    .WithTestCase(10, new int[] { 1, 3, 2 }, 1)// index = 3
     .Run(0, 3);//runs tests with index 0 and 3 (first and forth tests)
 ```
 
