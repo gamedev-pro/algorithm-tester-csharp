@@ -19,7 +19,7 @@ namespace AlgTester.API
             };
         }
 
-        public SolutionTesterBuilder WithSolution<T1, T2, TRet>(Func<T1, T2, TRet> func)
+        public SolutionTesterBuilder<T1, T2, TRet> WithSolution<T1, T2, TRet>(Func<T1, T2, TRet> func)
         {
             SolutionTester.runSolutionFunc = SolutionFunc.Get(func);
             var del = (Delegate)func;
@@ -31,7 +31,7 @@ namespace AlgTester.API
             };
         }
 
-        public SolutionTesterBuilder WithSolution<T1, T2, T3, TRet>(Func<T1, T2, T3, TRet> func)
+        public SolutionTesterBuilder<T1, T2, T3, TRet> WithSolution<T1, T2, T3, TRet>(Func<T1, T2, T3, TRet> func)
         {
             SolutionTester.runSolutionFunc = SolutionFunc.Get(func);
             var del = (Delegate)func;
@@ -42,7 +42,7 @@ namespace AlgTester.API
                 solutionMethodName = del.Method.Name
             };
         }
-        public SolutionTesterBuilder WithSolution<T1, T2, T3, T4, TRet>(Func<T1, T2, T3, T4, TRet> func)
+        public SolutionTesterBuilder<T1, T2, T3, T4, TRet> WithSolution<T1, T2, T3, T4, TRet>(Func<T1, T2, T3, T4, TRet> func)
         {
             SolutionTester.runSolutionFunc = SolutionFunc.Get(func);
             var del = (Delegate)func;
@@ -53,7 +53,7 @@ namespace AlgTester.API
                 solutionMethodName = del.Method.Name
             };
         }
-        public SolutionTesterBuilder WithSolution<T1, T2, T3, T4, T5, TRet>(Func<T1, T2, T3, T4, T5, TRet> func)
+        public SolutionTesterBuilder<T1, T2, T3, T4, T5, TRet> WithSolution<T1, T2, T3, T4, T5, TRet>(Func<T1, T2, T3, T4, T5, TRet> func)
         {
             SolutionTester.runSolutionFunc = SolutionFunc.Get(func);
             var del = (Delegate)func;
@@ -64,7 +64,7 @@ namespace AlgTester.API
                 solutionMethodName = del.Method.Name
             };
         }
-        public SolutionTesterBuilder WithSolution<T1, T2, T3, T4, T5, T6, TRet>(Func<T1, T2, T3, T4, T5, T6, TRet> func)
+        public SolutionTesterBuilder<T1, T2, T3, T4, T5, T6, TRet> WithSolution<T1, T2, T3, T4, T5, T6, TRet>(Func<T1, T2, T3, T4, T5, T6, TRet> func)
         {
             SolutionTester.runSolutionFunc = SolutionFunc.Get(func);
             var del = (Delegate)func;

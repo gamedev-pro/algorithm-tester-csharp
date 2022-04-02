@@ -30,7 +30,8 @@ var solutionFunc = MyCodingChallengeSolution;
 SolutionTester.New()
     .WithSolution(solutionFunc)
     .WithTestCase(2, new int[] { 1, 3 }, 0) // Type safe Input and output
-    .WithTestCase(3, new int[] { 2, 3, 5 }, 0)
+    .WithTestCase(3, new int[] { 2, 3, 5 }, 1) // Another test case (this one will fail)
+    .WithTestCase(3, new int[] { 2, 3, 5 }, 0) // and another :)
     .Run();//Run tests!
 ```
 
@@ -56,15 +57,29 @@ class Program
             //No implicity generic method resolution for C# 9.0
             .WithSolution<int, int[], int>(solutionFunc)
             .WithTestCase(2, new int[] { 1, 3 }, 0) // Type safe Input and output
-            .WithTestCase(3, new int[] { 2, 3, 5 }, 0)
+            .WithTestCase(3, new int[] { 2, 3, 5 }, 1) // Another test case (this one will fail)
+            .WithTestCase(3, new int[] { 2, 3, 5 }, 0) // and another :)
             .Run();
     }
 }
 ```
 
+If you run your project, you should get the following output:
+<div style="background-color:rgba(0, 0, 0, 1); padding:10px 20px;">
+</br>
+<span style="color:rgba(200, 200, 200, 1)">Results for Test Suite: MyCodingChallengeSolution</span>
+</br></br>
+<span style="color:green">Test 0: Input = [2,[1,3]], Expected = [0], Actual = [0]</span></br>
+<span style="color:red">Test 1: Input = [3,[2,3,5]], Expected = [1], Actual = [0]</span></br>
+<span style="color:green">Test 2: Input = [3,[2,3,5]], Expected = [0], Actual = [0]</span>
+</br></br>
+</div>
+
+
+</br></br>
 ## Running specific tests
 
-When debugging a coding challenge, you often want to run only the test cases that are failing. AlgTester supports filtering tests by index.
+When debugging a coding challenge, you often want to run only the test cases that are failing. AlgTester supports running only failed tests.
 
 ```c#
 var solutionFunc = MyCodingChallengeSolution;
@@ -73,9 +88,47 @@ SolutionTester.New()
     .WithTestCase(2, new int[] { 1, 3 }, 0)
     .WithTestCase(3, new int[] { 2, 3, 5 }, 1)// This test will fail
     .WithTestCase(3, new int[] { 1, 3, 2 }, 0)
-    .Run(1)//runs test with index 1 (second test)
-    .Run(1, 2);//runs tests with index 1 and 2 (second and third test)
+    .WithTestCase(10, new int[] { 1, 3, 2 }, 1)// This one will also fail
+    .ShowFailedTestsOnly()
+    .Run();//runs tests with index 1 and 3 (second and forth tests)
 ```
+
+You should then get something like this:
+
+<div style="background-color:rgba(0, 0, 0, 1); padding:10px 20px;">
+</br>
+<span style="color:rgba(200, 200, 200, 1)">Results for Test Suite: MyCodingChallengeSolution</span>
+</br></br>
+<span style="color:red">Test 1: Input = [3,[2,3,5]], Expected = [1], Actual = [0]</span></br>
+<span style="color:red">Test 3: Input = [10,[1,3,2]], Expected = [0], Actual = [1]</span>
+</br></br>
+</div>
+
+</br></br>
+You can also run filter tests by index if you like
+
+```c#
+var solutionFunc = MyCodingChallengeSolution;
+SolutionTester.New()
+    .WithSolution(solutionFunc)
+    .WithTestCase(2, new int[] { 1, 3 }, 0)
+    .WithTestCase(3, new int[] { 2, 3, 5 }, 1)
+    .WithTestCase(3, new int[] { 1, 3, 2 }, 0)
+    .WithTestCase(10, new int[] { 1, 3, 2 }, 1)
+    .Run(0, 3);//runs tests with index 0 and 3 (first and forth tests)
+```
+
+<div style="background-color:rgba(0, 0, 0, 1); padding:10px 20px;">
+</br>
+<span style="color:rgba(200, 200, 200, 1)">Results for Test Suite: MyCodingChallengeSolution</span>
+</br></br>
+<span style="color:green">Test 0: Input = [2,[1, 3]], Expected = [0], Actual = [0]</span></br>
+<span style="color:red">Test 3: Input = [10,[1,3,2]], Expected = [0], Actual = [1]</span>
+</br></br>
+</div>
+
+</br></br>
+
 ## Using a Test File
 
 For testing multiple inputs, it's usually much easier to use a separate test file with inputs and outputs.
@@ -107,3 +160,16 @@ SolutionTester.New()
     .WithSolution(solutionFunc)
     .Run();//Alg tester automatically picks up the test file
 ```
+
+You should see the following result
+
+<div style="background-color:rgba(0, 0, 0, 1); padding:10px 20px;">
+</br>
+<span style="color:rgba(200, 200, 200, 1)">Results for Test Suite: MyCodingChallengeSolution</span>
+</br></br>
+<span style="color:green">Test 0: Input = [ 2,[1, 3] ], Expected = [0], Actual = [0]</span></br>
+<span style="color:green">Test 1: Input = [ 3,[2, 3, 5] ], Expected = [0], Actual = [0]</span>
+</br></br>
+</div>
+
+</br></br>
