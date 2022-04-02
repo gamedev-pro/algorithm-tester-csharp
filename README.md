@@ -77,6 +77,41 @@ If you run your project, you should get the following output:
 
 
 </br></br>
+
+## Using Strings
+
+Though type safety is *awesome*, some data structures are more cubbersome to define, such as LinkedList and Dictionary. To make testing these cases easier, AlgTester support passing inputs and outputs as strings, you can also [use a Test File](#Using-a-Test-File)
+
+```c#
+using AlgTester.API;
+
+static LinkedList<int> MyCodingChallengeSolution(int number, LinkedList<int> list)
+{
+    return list;
+}
+
+var solutionFunc = MyCodingChallengeSolution;
+
+SolutionTester.New()
+    .WithSolution(solutionFunc)
+    .WithTestCase(10, new LinkedList<int>(new int[] { 1, 2, 3 }), new LinkedList<int>(new int[] { 1, 2, 3 }))
+    //This is equivalent to the above test case
+    .WithStringTestCase(input: @"[ 10, [1,2,3] ]", output: @"[ [1,2,3] ]")
+    .Run()
+```
+
+All inputs are passed together, grouped by `[]`. Output is also grouped by `[]`.
+
+Values follow *JSON notation*, which means
+- `10` is an `int`
+- `10.23` is a `float`
+- `""10""` is a `string` (we just need to scape the `"`)
+- `'10'` is a `char`
+- `true` is a `bool`
+- `[1, 2, 3]` is an array of `ints` (or `List<int>`, `LinkedList<int>`, `Queue<int>`, `Stack<int>`, `HashSet<int>`)
+- `{ ""1"": 10, ""4"": 3 }` is a `Dictionary<string, int>`
+
+
 ## Running specific tests
 
 When debugging a coding challenge, you often want to run only the test cases that are failing. AlgTester supports running only failed tests.
