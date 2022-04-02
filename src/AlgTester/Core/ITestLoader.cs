@@ -4,7 +4,7 @@ namespace AlgTester.Core
 {
     public interface ITestResultsPresenter
     {
-        void Present(IEnumerable<AlgTestResult> fileTestResults, IEnumerable<AlgTestResult> extraTestResults);
+        void Present(IEnumerable<AlgTestResult> fileTestResults);
     }
 
     interface ITestLoader

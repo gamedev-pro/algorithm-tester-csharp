@@ -62,6 +62,20 @@ class Program
 }
 ```
 
+## Running specific tests
+
+When debugging a coding challenge, you often want to run only the test cases that are failing. AlgTester supports filtering tests by index.
+
+```c#
+var solutionFunc = MyCodingChallengeSolution;
+SolutionTester.New()
+    .WithSolution(solutionFunc)
+    .WithTestCase(2, new int[] { 1, 3 }, 0)
+    .WithTestCase(3, new int[] { 2, 3, 5 }, 1)// This test will fail
+    .WithTestCase(3, new int[] { 1, 3, 2 }, 0)
+    .Run(1)//runs test with index 1 (second test)
+    .Run(1, 2);//runs tests with index 1 and 2 (second and third test)
+```
 ## Using a Test File
 
 For testing multiple inputs, it's usually much easier to use a separate test file with inputs and outputs.

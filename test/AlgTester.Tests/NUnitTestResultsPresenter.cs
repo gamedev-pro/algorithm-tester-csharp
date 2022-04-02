@@ -8,9 +8,8 @@ namespace AlgTester.Tests
 {
     internal class NUnitTestResultsPresenter : ITestResultsPresenter
     {
-        public void Present(IEnumerable<AlgTestResult> fileTestResults, IEnumerable<AlgTestResult> extraTestResults)
+        public void Present(IEnumerable<AlgTestResult> allResults)
         {
-            var allResults = fileTestResults.Concat(extraTestResults);
             var resultComparer = new AlgTesterOutputComparer<IEnumerable<object>>();
             foreach (var result in allResults)
             {

@@ -7,8 +7,7 @@ namespace AlgTester.Core
     public class SolutionTestSuiteRunner
     {
         internal Func<IEnumerable<object>, IEnumerable<object>> runSolutionFunc;
-        internal IEnumerable<TestCase> fileTestCases;
-        internal IEnumerable<TestCase> extraTestCases;
+        internal IEnumerable<TestCase> testCases;
         internal ITestResultsPresenter presenter;
 
         internal SolutionTestSuiteRunner()
@@ -23,9 +22,12 @@ namespace AlgTester.Core
             }
 
             var comparer = new AlgTesterOutputComparer<IEnumerable<object>>();
-            var fileTestResults = RunSuite(fileTestCases, comparer, runSolutionFunc);
-            var extraTestResults = RunSuite(extraTestCases, comparer, runSolutionFunc);
-            presenter.Present(fileTestResults, extraTestResults);
+            var fileTestResults = RunSuite(testCases, comparer, runSolutionFunc);
+            presenter.Present(fileTestResults);
+        }
+        
+        public void Run(params int[] indexes)
+        {	
         }
         
         private static IEnumerable<AlgTestResult> RunSuite(
