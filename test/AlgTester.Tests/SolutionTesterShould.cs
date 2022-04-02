@@ -13,7 +13,7 @@ namespace AlgTester.Tests
         }
     }
 
-    public class SolutionTesterShould
+    public partial class SolutionTesterShould
     {
         [OneTimeSetUp]
         public void Setup()
