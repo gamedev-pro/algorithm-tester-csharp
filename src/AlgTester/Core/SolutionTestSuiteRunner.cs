@@ -14,7 +14,7 @@ namespace AlgTester.Core
         {	
         }
         
-        public void Run()
+        public void Run(params int[] indexes)
         {	
             if (runSolutionFunc == null)
             {
@@ -22,35 +22,35 @@ namespace AlgTester.Core
             }
 
             var comparer = new AlgTesterOutputComparer<IEnumerable<object>>();
-            var fileTestResults = RunSuite(testCases, comparer, runSolutionFunc);
+            var fileTestResults = RunSuite(testCases, comparer, runSolutionFunc, indexes);
             presenter.Present(fileTestResults);
-        }
-        
-        public void Run(params int[] indexes)
-        {	
         }
         
         private static IEnumerable<AlgTestResult> RunSuite(
             IEnumerable<TestCase> testSuite,
             AlgTesterOutputComparer<IEnumerable<object>> comparer,
-            Func<IEnumerable<object>, IEnumerable<object>> solutionFunc)
+            Func<IEnumerable<object>, IEnumerable<object>> solutionFunc,
+            IList<int> filterIndexes)
         {	
             int testIndex = 0;
             var results = Enumerable.Empty<AlgTestResult>();
             foreach (var testCase in testSuite)
             {
-                var actual = solutionFunc(testCase.Input);
-                var passed = comparer.Equals(actual, testCase.Output);
+                if (filterIndexes.Count == 0 || filterIndexes.Contains(testIndex))
+                {	
+                    var actual = solutionFunc(testCase.Input);
+                    var passed = comparer.Equals(actual, testCase.Output);
 
-                var result = new AlgTestResult
-                {
-                    Index = testIndex,
-                    TestCase = testCase,
-                    Actual = actual,
-                    Passed = passed
-                };
+                    var result = new AlgTestResult
+                    {
+                        Index = testIndex,
+                        TestCase = testCase,
+                        Actual = actual,
+                        Passed = passed
+                    };
 
-                results = results.Append(result);
+                    results = results.Append(result);
+                }
                 testIndex++;
             }
             return results;

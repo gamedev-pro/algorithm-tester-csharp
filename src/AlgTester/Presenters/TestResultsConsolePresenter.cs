@@ -21,8 +21,10 @@ namespace AlgTester.Presentation
         public void Present(IEnumerable<AlgTestResult> testResults)
         {
             Console.WriteLine('\n');
+
             if (!testResults.Any())
             {
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("No tests to present!");
             }
             else
@@ -40,8 +42,9 @@ namespace AlgTester.Presentation
                         testResult.Actual.ToOutputString())
                     );
                 }
-                Console.WriteLine("\n\n");
             }
+
+            Console.WriteLine("\n\n");
         }
     }
 }

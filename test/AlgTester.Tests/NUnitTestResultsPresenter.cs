@@ -17,4 +17,19 @@ namespace AlgTester.Tests
             }
         }
     }
+
+    internal class NUnitFilterTestsPresenter : ITestResultsPresenter
+    {
+        private int expectedResultsCount;
+
+        internal NUnitFilterTestsPresenter(int expectedResultsCount)
+        {
+            this.expectedResultsCount = expectedResultsCount;
+        }
+
+        public void Present(IEnumerable<AlgTestResult> allResults)
+        {
+            Assert.AreEqual(allResults.Count(), expectedResultsCount);
+        }
+    }
 }

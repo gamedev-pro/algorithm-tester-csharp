@@ -91,6 +91,33 @@ namespace AlgTester.Tests
         }
 
         [Test]
+        public void FilterTests()
+        {
+            var s = SolutionTesterTests.Solution;
+            SolutionTester.New()
+                .WithSolution(s)
+                .WithPresenter(new NUnitFilterTestsPresenter(2))
+                .WithTestCase(0, 0)
+                .WithTestCase(0, 0)
+                .WithTestCase(0, 0)
+                .WithTestCase(0, 0)
+                .Run(1, 3);
+        }
+        [Test]
+        public void RunAllTests_When_NoFilter()
+        {
+            var s = SolutionTesterTests.Solution;
+            SolutionTester.New()
+                .WithSolution(s)
+                .WithPresenter(new NUnitFilterTestsPresenter(4))
+                .WithTestCase(0, 0)
+                .WithTestCase(0, 0)
+                .WithTestCase(0, 0)
+                .WithTestCase(0, 0)
+                .Run();
+        }
+
+        [Test]
         public void Fail_If_FileDoesNotExists()
         {
             var s = SolutionTesterTests.Solution;

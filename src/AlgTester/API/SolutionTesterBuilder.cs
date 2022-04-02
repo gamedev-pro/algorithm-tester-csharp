@@ -67,11 +67,6 @@ namespace AlgTester.API
             return SolutionTester;
         }
         
-        public void Run()
-        {
-            Build().Run();
-        }
-        
         public void Run(params int[] indexes)
         {
             Build().Run(indexes);
