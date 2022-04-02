@@ -18,20 +18,27 @@ namespace AlgTester.API
         
         protected SolutionTesterBuilder WithAutoTestFile()
         {	
-            var testFile = TryFindTestSuiteFile();
+            var fileNames = GetDefaultTestFileNames();
+            var testFile = FindSolutionFilePath(fileNames);
             if (testFile == null)
             {
-                throw new System.Exception($"Couldn't find test file for class {solutionClassName}.\nTry adding a file named {GetTestFileName()} on your project");
+                var possibleFileNames = string.Join(',', GetDefaultTestFileNames());
+                throw new System.ArgumentException($"Couldn't find test file for class {solutionClassName}.\nTry adding a file named {possibleFileNames} on your project");
             }
             return WithTestFile(testFile);
         }
         
-        protected SolutionTesterBuilder WithTestFile(string filePath)
+        protected SolutionTesterBuilder WithTestFile(string fileNameOrPath)
         {
-            testFileName = Path.GetFileName(filePath);
-            SolutionTester.fileTestCases = GetTestCases(filePath);
+            var fullPath = FindSolutionFilePath(new string[] { fileNameOrPath });
+            if (string.IsNullOrEmpty(fullPath))
+            {	
+                throw new System.ArgumentException($"Couldn't find any test file with name {fileNameOrPath}. Make sure the name is correct and the file is inside your project directory.");
+            }
+            SolutionTester.fileTestCases = GetTestCases(new TestFileLoader(fullPath));
             return this;
         }
+
         protected SolutionTesterBuilder WithTestCase(object[] intputs, object[] outputs)
         {
             SolutionTester.extraTestCases = SolutionTester.extraTestCases.Append(new TestCase
@@ -39,6 +46,11 @@ namespace AlgTester.API
                 Input = intputs,
                 Output = outputs
             });
+            return this;
+        }
+        public SolutionTesterBuilder WithStringTestCase(string input, string output)
+        {
+            SolutionTester.extraTestCases = SolutionTester.extraTestCases.Concat(GetTestCases(new TestStringLoader(input, output)));
             return this;
         }
         
@@ -60,41 +72,42 @@ namespace AlgTester.API
             Build().Run();
         }
 
-        private string GetTestFileName()
+        private IEnumerable<string> GetDefaultTestFileNames()
         {
-            return $"{solutionClassName}_{TestFileSuffix}";
+            yield return $"{solutionClassName}_{solutionMethodName}_{TestFileSuffix}";
+            yield return $"{solutionMethodName}_{TestFileSuffix}";
+            yield return $"{solutionClassName}_{TestFileSuffix}";
         }
 
-        private string TryFindTestSuiteFile()
+        private static string FindSolutionFilePath(IEnumerable<string> fileNamesOrPaths)
         {
-            var files = Directory.GetFiles(Directory.GetCurrentDirectory(), GetTestFileName(), SearchOption.AllDirectories);
-            return files.FirstOrDefault();
-        }
-
-        private IEnumerable<TestCase> GetTestCases(string testFile, IEnumerable<TestCase> extraTestCases = null)
-        {
-            var absPath = Path.GetFullPath(testFile);
-            if (!File.Exists(absPath))
+            foreach (var fileNameOrPath in fileNamesOrPaths)
             {
-                throw new System.ArgumentException($"Couldn't find test file for path: {absPath}");
-            }
-            var loader = new TestFileLoader(absPath);
-            var parser = new TestParser(loader);
+                if (File.Exists(fileNameOrPath))
+                {
+                    return fileNameOrPath;
+                }
+                var searchName = fileNameOrPath.Split('/').LastOrDefault();
 
+                var path = Directory.GetFiles(Directory.GetCurrentDirectory(), searchName, SearchOption.AllDirectories).FirstOrDefault();
+                if (!string.IsNullOrEmpty(path))
+                {
+                    return path;
+                }
+            }
+            return null;
+        }
+
+        private IEnumerable<TestCase> GetTestCases(ITestLoader loader)
+        {
+            var parser = new TestParser(loader);
             var testSuite = parser.GetTestCases();
             foreach (var testCase in testSuite)
             {
                 yield return testCase;
             }
-
-            if (extraTestCases != null)
-            {	
-                foreach (var extraTestCase in extraTestCases)
-                {
-                    yield return extraTestCase;
-                }
-            }
         }
+
         protected SolutionTesterBuilder WithPresenter(ITestResultsPresenter presenter)
         {
             SolutionTester.presenter = presenter;

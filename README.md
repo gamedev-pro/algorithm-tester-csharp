@@ -66,10 +66,10 @@ class Program
 
 For testing multiple inputs, it's usually much easier to use a separate test file with inputs and outputs.
 
-AlgTester automatically searches for a file matching the following patterns:
+AlgTester automatically searches for a file matching the following patterns (in order):
+- `{ClassName}_{MethodName}_Tests.txt`
 - `{MethodName}_Tests.txt`
 - `{ClassName}_Tests.txt`
-- `{ClassName}_{MethodName}_Tests.txt`
 
 For instance, if we want to use a test file for `MyCodingChallengeSolution`, we can create a file named **MyCodingChallengeSoluiton_Tests.txt** with the following content:
 

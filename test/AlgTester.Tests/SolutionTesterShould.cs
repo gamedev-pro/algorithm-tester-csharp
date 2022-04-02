@@ -53,12 +53,40 @@ namespace AlgTester.Tests
         }
 
         [Test]
-        public void Run_WithTestFile()
+        public void Run_WithStringTestCase()
+        {
+            var s = SolutionTesterTests.Solution;
+            SolutionTester.New().WithSolution(s)
+                .WithStringTestCase("[0]", "[0]")
+                .Run();
+        }
+
+        [Test]
+        public void Run_WithTestFilePath()
         {
             var s = SolutionTesterTests.Solution;
             SolutionTester.New()
                 .WithSolution(s)
                 .WithTestFile("test/AlgTester.Tests/SolutionTesterTests_Tests.txt")
+                .Run();
+        }
+        [Test]
+        public void Run_WithPartialTestFilePath()
+        {
+            var s = SolutionTesterTests.Solution;
+            SolutionTester.New()
+                .WithSolution(s)
+                .WithTestFile("AlgTester.Tests/SolutionTesterTests_Tests.txt")
+                .Run();
+        }
+
+        [Test]
+        public void Run_WithTestFileName()
+        {
+            var s = SolutionTesterTests.Solution;
+            SolutionTester.New()
+                .WithSolution(s)
+                .WithTestFile("SolutionTesterTests_Tests.txt")
                 .Run();
         }
 
