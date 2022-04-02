@@ -11,6 +11,7 @@ namespace TesterApp
                 .WithSolution(solutionFunc)
                 .WithTestFile("FindRepeatedElement_Solution_Tests.txt")
                 .WithTestCase(new int[] { 1, 1, 3, 4 }, 0)
+                .WithStringTestCase("[[1,1,3,4]]", "[0]")
                 .Run();
         }
     }
