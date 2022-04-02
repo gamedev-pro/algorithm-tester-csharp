@@ -1,28 +1,14 @@
-﻿using AlgTester.API;
+﻿using AlgTester.API;//Include lib
 
-namespace TesterApp
-{
-    public static class Solution
-    {	
-        public static int MyCodingChallengeSolution(int n, int[] arr)
-        {	
-            return 0;
-        }
-    }
-
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            var solutionFunc = Solution.MyCodingChallengeSolution;
-            SolutionTester.New()
-                //No implicity generic method resolution for C# 9.0
-                .WithSolution(solutionFunc)
-                .ShowFailedTestsOnly()
-                .WithTestCase(2, new int[] { 1, 3 }, 0) // Type safe Input and output
-                .WithTestCase(3, new int[] { 2, 3, 5 }, 1) // Another test case (this one will fail)
-                .WithTestCase(3, new int[] { 2, 3, 5 }, 0) // and another :)
-                .Run();
-        }
-    }
+static int MyCodingChallengeSolution(int n, int[] arr)
+{	
+    return 0;
 }
+
+// Save the function you want to test in a variable (it will help C# auto resolve the correct method call)
+var solutionFunc = MyCodingChallengeSolution;
+// Run your tests
+SolutionTester.New()
+    .WithSolution(solutionFunc)
+    .WithAutoTestFile()
+    .Run();//Run tests!
