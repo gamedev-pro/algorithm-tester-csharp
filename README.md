@@ -100,16 +100,17 @@ SolutionTester.New()
     .Run()
 ```
 
-All inputs are passed together, grouped by `[]`. Output is also grouped by `[]`.
+### String Test Case Rules
 
-Values follow *JSON notation*, which means
-- `10` is an `int`
-- `10.23` is a `float`
-- `""10""` is a `string` (we just need to scape the `"`)
-- `'10'` is a `char`
-- `true` is a `bool`
-- `[1, 2, 3]` is an array of `ints` (or `List<int>`, `LinkedList<int>`, `Queue<int>`, `Stack<int>`, `HashSet<int>`)
-- `{ ""1"": 10, ""4"": 3 }` is a `Dictionary<string, int>`
+- All inputs are passed together, grouped by `[]`. Output is only one, but also grouped by `[]`.
+- Values follow *JSON notation*, which means
+  - `10` is an `int`
+  - `10.23` is a `float`
+  - `""10""` is a `string` (we just need to scape the `"`)
+  - `'10'` is a `char`
+  - `true` is a `bool`
+  - `[1, 2, 3]` is an array of `ints` (or `List<int>`, `LinkedList<int>`, `Queue<int>`, `Stack<int>`, `HashSet<int>`)
+  - `{ ""1"": 10, ""4"": 3 }` is a `Dictionary<string, int>`
 
 
 ## Running specific tests
@@ -130,16 +131,11 @@ SolutionTester.New()
 
 You should then get something like this:
 
-<div style="background-color:rgba(0, 0, 0, 1); padding:10px 20px;">
-</br>
-<span style="color:rgba(200, 200, 200, 1)">Results for Test Suite: MyCodingChallengeSolution</span>
-</br></br>
-<span style="color:red">Test 1: Input = [3,[2,3,5]], Expected = [1], Actual = [0]</span></br>
-<span style="color:red">Test 3: Input = [10,[1,3,2]], Expected = [0], Actual = [1]</span>
-</br></br>
-</div>
-
-</br></br>
+```diff
+Results for Test Suite: MyCodingChallengeSolution
+- Test 1: Input = [3,[2,3,5]], Expected = [1], Actual = [0]
++ Test 3: Input = [10,[1,3,2]], Expected = [0], Actual = [1]
+```
 You can also run filter tests by index if you like
 
 ```c#
@@ -153,20 +149,16 @@ SolutionTester.New()
     .Run(0, 3);//runs tests with index 0 and 3 (first and forth tests)
 ```
 
-<div style="background-color:rgba(0, 0, 0, 1); padding:10px 20px;">
-</br>
-<span style="color:rgba(200, 200, 200, 1)">Results for Test Suite: MyCodingChallengeSolution</span>
-</br></br>
-<span style="color:green">Test 0: Input = [2,[1, 3]], Expected = [0], Actual = [0]</span></br>
-<span style="color:red">Test 3: Input = [10,[1,3,2]], Expected = [0], Actual = [1]</span>
-</br></br>
-</div>
-
-</br></br>
+```diff
+Results for Test Suite: MyCodingChallengeSolution
++Test 0: Input = [2,[1, 3]], Expected = [0], Actual = [0]
+-Test 3: Input = [10,[1,3,2]], Expected = [0], Actual = [1]
+```
 
 ## Using a Test File
 
 For testing multiple inputs, it's usually much easier to use a separate test file with inputs and outputs.
+
 
 AlgTester automatically searches for a file matching the following patterns (in order):
 - `{ClassName}_{MethodName}_Tests.txt`
@@ -181,10 +173,13 @@ For instance, if we want to use a test file for `MyCodingChallengeSolution`, we 
 ```
 
 Which would be equivalent to the following in C#
+
 ```c#
 .WithTestCase(2, new int[] { 1, 3 }, 0)
 .WithTestCase(3, new int[] { 2, 3, 5 }, 0)
 ```
+
+*Note: test files use JSON Notation, see [this section for more details](###String-Test-Case-Rules)*
 
 Then, to run your solution with the test file you just:
 
@@ -198,13 +193,8 @@ SolutionTester.New()
 
 You should see the following result
 
-<div style="background-color:rgba(0, 0, 0, 1); padding:10px 20px;">
-</br>
-<span style="color:rgba(200, 200, 200, 1)">Results for Test Suite: MyCodingChallengeSolution</span>
-</br></br>
-<span style="color:green">Test 0: Input = [ 2,[1, 3] ], Expected = [0], Actual = [0]</span></br>
-<span style="color:green">Test 1: Input = [ 3,[2, 3, 5] ], Expected = [0], Actual = [0]</span>
-</br></br>
-</div>
-
-</br></br>
+```diff
+Results for Test Suite: MyCodingChallengeSolution
++Test 0: Input = [ 2,[1, 3] ], Expected = [0], Actual = [0]
++Test 1: Input = [ 3,[2, 3, 5] ], Expected = [0], Actual = [0]
+```
