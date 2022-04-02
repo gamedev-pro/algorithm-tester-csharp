@@ -35,13 +35,13 @@ namespace AlgTester.API
             {	
                 throw new System.ArgumentException($"Couldn't find any test file with name {fileNameOrPath}. Make sure the name is correct and the file is inside your project directory.");
             }
-            SolutionTester.fileTestCases = GetTestCases(new TestFileLoader(fullPath));
+            SolutionTester.testCases = SolutionTester.testCases.Concat(GetTestCases(new TestFileLoader(fullPath)));
             return this;
         }
 
         protected SolutionTesterBuilder WithTestCase(object[] intputs, object[] outputs)
         {
-            SolutionTester.extraTestCases = SolutionTester.extraTestCases.Append(new TestCase
+            SolutionTester.testCases = SolutionTester.testCases.Append(new TestCase
             {
                 Input = intputs,
                 Output = outputs
@@ -50,26 +50,36 @@ namespace AlgTester.API
         }
         public SolutionTesterBuilder WithStringTestCase(string input, string output)
         {
-            SolutionTester.extraTestCases = SolutionTester.extraTestCases.Concat(GetTestCases(new TestStringLoader(input, output)));
+            SolutionTester.testCases = SolutionTester.testCases.Concat(GetTestCases(new TestStringLoader(input, output)));
+            return this;
+        }
+        
+        public SolutionTesterBuilder ShowFailedTestsOnly()
+        {
+            if (SolutionTester.presenter == null)
+            {	
+                SolutionTester.presenter = new TestResultsConsolePresenter(solutionMethodName);
+            }
+            SolutionTester.presenter.PresentFailedOnly = true;
             return this;
         }
         
         public SolutionTestSuiteRunner Build()
         {
-            if (!SolutionTester.fileTestCases.Any() && !SolutionTester.extraTestCases.Any())
+            if (!SolutionTester.testCases.Any())
             {
                 WithAutoTestFile();
             }
             if (SolutionTester.presenter == null)
             {
-                WithPresenter(new TestResultsConsolePresenter(testFileName, solutionMethodName));
+                WithPresenter(new TestResultsConsolePresenter(solutionMethodName));
             }
             return SolutionTester;
         }
         
-        public void Run()
+        public void Run(params int[] indexes)
         {
-            Build().Run();
+            Build().Run(indexes);
         }
 
         private IEnumerable<string> GetDefaultTestFileNames()

@@ -20,6 +20,11 @@ namespace AlgTester.API
         {
             return (SolutionTesterBuilder<T1, TRet>)base.WithPresenter(presenter);
         }
+
+        public new SolutionTesterBuilder<T1, TRet> ShowFailedTestsOnly()
+        {	
+            return (SolutionTesterBuilder<T1, TRet>)base.ShowFailedTestsOnly();
+        }
     }
 
     public class SolutionTesterBuilder<T1, T2, TRet> : SolutionTesterBuilder
@@ -39,6 +44,10 @@ namespace AlgTester.API
         public new SolutionTesterBuilder<T1, T2, TRet> WithPresenter(ITestResultsPresenter presenter)
         {
             return (SolutionTesterBuilder<T1, T2, TRet>)base.WithPresenter(presenter);
+        }
+        public new SolutionTesterBuilder<T1, T2, TRet> ShowFailedTestsOnly()
+        {	
+            return (SolutionTesterBuilder<T1, T2, TRet>)base.ShowFailedTestsOnly();
         }
     }
 
@@ -60,6 +69,10 @@ namespace AlgTester.API
         {
             return (SolutionTesterBuilder<T1, T2, T3, TRet>)base.WithPresenter(presenter);
         }
+        public new SolutionTesterBuilder<T1, T2, T3, TRet> ShowFailedTestsOnly()
+        {	
+            return (SolutionTesterBuilder<T1, T2, T3, TRet>)base.ShowFailedTestsOnly();
+        }
     }
     public class SolutionTesterBuilder<T1, T2, T3, T4, TRet> : SolutionTesterBuilder
     {
@@ -78,6 +91,10 @@ namespace AlgTester.API
         public new SolutionTesterBuilder<T1, T2, T3, T4, TRet> WithPresenter(ITestResultsPresenter presenter)
         {
             return (SolutionTesterBuilder<T1, T2, T3, T4, TRet>)base.WithPresenter(presenter);
+        }
+        public new SolutionTesterBuilder<T1, T2, T3, T4, TRet> ShowFailedTestsOnly()
+        {	
+            return (SolutionTesterBuilder<T1, T2, T3, T4, TRet>)base.ShowFailedTestsOnly();
         }
     }
 
@@ -99,6 +116,10 @@ namespace AlgTester.API
         {
             return (SolutionTesterBuilder<T1, T2, T3, T4, T5, TRet>)base.WithPresenter(presenter);
         }
+        public new SolutionTesterBuilder<T1, T2, T3, T4, T5, TRet> ShowFailedTestsOnly()
+        {	
+            return (SolutionTesterBuilder<T1, T2, T3, T4, T5, TRet>)base.ShowFailedTestsOnly();
+        }
     }
     public class SolutionTesterBuilder<T1, T2, T3, T4, T5, T6, TRet> : SolutionTesterBuilder
     {
@@ -117,6 +138,10 @@ namespace AlgTester.API
         public new SolutionTesterBuilder<T1, T2, T3, T4, T5, T6, TRet> WithPresenter(ITestResultsPresenter presenter)
         {
             return (SolutionTesterBuilder<T1, T2, T3, T4, T5, T6, TRet>)base.WithPresenter(presenter);
+        }
+        public new SolutionTesterBuilder<T1, T2, T3, T4, T5, T6, TRet> ShowFailedTestsOnly()
+        {	
+            return (SolutionTesterBuilder<T1, T2, T3, T4, T5, T6, TRet>)base.ShowFailedTestsOnly();
         }
     }
 }
