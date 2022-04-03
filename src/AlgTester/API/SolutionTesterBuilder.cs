@@ -48,7 +48,7 @@ namespace AlgTester.API
             });
             return this;
         }
-        public SolutionTesterBuilder WithStringTestCase(string input, string output)
+        protected SolutionTesterBuilder WithStringTestCase(string input, string output)
         {
             SolutionTester.testCases = SolutionTester.testCases.Concat(GetTestCases(new TestStringLoader(input, output)));
             return this;

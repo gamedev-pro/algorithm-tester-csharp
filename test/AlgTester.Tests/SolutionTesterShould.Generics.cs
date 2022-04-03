@@ -46,7 +46,9 @@ namespace AlgTester.Tests
                 SolutionTester.New()
                     .WithSolution(s1)
                     .WithTestCase(0, "0")
+                    .WithStringTestCase("[0]", @"[""0""]")
                     .WithPresenter(new NUnitTestResultsPresenter())
+                    .WithStringTestCase("[0]", @"[""0""]")
                     .WithTestCase(1, "0")
                     .Run();
             }
@@ -57,6 +59,7 @@ namespace AlgTester.Tests
                     .WithSolution(s2)
                     .WithTestCase(0, 0, "0")
                     .WithPresenter(new NUnitTestResultsPresenter())
+                    .WithStringTestCase("[0, 0]", @"[""0""]")
                     .WithTestCase(1, 1, "0")
                     .Run();
             }
@@ -67,6 +70,7 @@ namespace AlgTester.Tests
                     .WithSolution(s3)
                     .WithTestCase(0, 0, 0, "0")
                     .WithPresenter(new NUnitTestResultsPresenter())
+                    .WithStringTestCase("[0, 0, 0]", @"[""0""]")
                     .WithTestCase(1, 1, 1, "0")
                     .Run();
             }
@@ -77,6 +81,7 @@ namespace AlgTester.Tests
                     .WithSolution(s4)
                     .WithTestCase(0, 0, 0, 0, "0")
                     .WithPresenter(new NUnitTestResultsPresenter())
+                    .WithStringTestCase("[0, 0, 0, 0]", @"[""0""]")
                     .WithTestCase(1, 1, 1, 1, "0")
                     .Run();
             }
@@ -87,6 +92,7 @@ namespace AlgTester.Tests
                     .WithSolution(s5)
                     .WithTestCase(0, 0, 0, 0, 0, "0")
                     .WithPresenter(new NUnitTestResultsPresenter())
+                    .WithStringTestCase("[0, 0, 0, 0, 0]", @"[""0""]")
                     .WithTestCase(1, 1, 1, 1, 1, "0")
                     .Run();
             }
@@ -97,6 +103,7 @@ namespace AlgTester.Tests
                     .WithSolution(s6)
                     .WithTestCase(0, 0, 0, 0, 0, 0, "0")
                     .WithPresenter(new NUnitTestResultsPresenter())
+                    .WithStringTestCase("[0, 0, 0, 0, 0, 0]", @"[""0""]")
                     .WithTestCase(1, 1, 1, 1, 1, 1, "0")
                     .Run();
             }

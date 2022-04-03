@@ -8,6 +8,10 @@ namespace AlgTester.API
         {
             return (SolutionTesterBuilder<T1, TRet>) base.WithTestCase(new object[] { p1 }, new object[] { o });
         }
+        public new SolutionTesterBuilder<T1, TRet> WithStringTestCase(string input, string output)
+        {
+            return (SolutionTesterBuilder<T1, TRet>) base.WithStringTestCase(input, output);
+        }
         public new SolutionTesterBuilder<T1, TRet> WithAutoTestFile()
         {
             return (SolutionTesterBuilder<T1, TRet>) base.WithAutoTestFile();
@@ -33,6 +37,10 @@ namespace AlgTester.API
         {
             return (SolutionTesterBuilder<T1, T2, TRet>) base.WithTestCase(new object[] { p1, p2 }, new object[] { o });
         }
+        public new SolutionTesterBuilder<T1, T2, TRet> WithStringTestCase(string input, string output)
+        {
+            return (SolutionTesterBuilder<T1, T2, TRet>) base.WithStringTestCase(input, output);
+        }
         public new SolutionTesterBuilder<T1, T2, TRet> WithAutoTestFile()
         {
             return (SolutionTesterBuilder<T1, T2, TRet>) base.WithAutoTestFile();
@@ -57,6 +65,10 @@ namespace AlgTester.API
         {
             return (SolutionTesterBuilder<T1, T2, T3, TRet>) base.WithTestCase(new object[] { p1, p2, p3 }, new object[] { o });
         }
+        public new SolutionTesterBuilder<T1, T2, T3, TRet> WithStringTestCase(string input, string output)
+        {
+            return (SolutionTesterBuilder<T1, T2, T3, TRet>) base.WithStringTestCase(input, output);
+        }
         public new SolutionTesterBuilder<T1, T2, T3, TRet> WithAutoTestFile()
         {
             return (SolutionTesterBuilder<T1, T2, T3, TRet>) base.WithAutoTestFile();
@@ -79,6 +91,10 @@ namespace AlgTester.API
         public SolutionTesterBuilder<T1, T2, T3, T4, TRet> WithTestCase(T1 p1, T2 p2, T3 p3, T4 p4, TRet o)
         {
             return (SolutionTesterBuilder<T1, T2, T3, T4, TRet>) base.WithTestCase(new object[] { p1, p2, p3, p4 }, new object[] { o });
+        }
+        public new SolutionTesterBuilder<T1, T2, T3, T4, TRet> WithStringTestCase(string input, string output)
+        {
+            return (SolutionTesterBuilder<T1, T2, T3, T4, TRet>) base.WithStringTestCase(input, output);
         }
         public new SolutionTesterBuilder<T1, T2, T3, T4, TRet> WithAutoTestFile()
         {
@@ -104,6 +120,10 @@ namespace AlgTester.API
         {
             return (SolutionTesterBuilder<T1, T2, T3, T4, T5, TRet>) base.WithTestCase(new object[] { p1, p2, p3, p4, p5 }, new object[] { o });
         }
+        public new SolutionTesterBuilder<T1, T2, T3, T4, T5, TRet> WithStringTestCase(string input, string output)
+        {
+            return (SolutionTesterBuilder<T1, T2, T3, T4, T5, TRet>) base.WithStringTestCase(input, output);
+        }
         public new SolutionTesterBuilder<T1, T2, T3, T4, T5, TRet> WithAutoTestFile()
         {
             return (SolutionTesterBuilder<T1, T2, T3, T4, T5, TRet>) base.WithAutoTestFile();
@@ -126,6 +146,10 @@ namespace AlgTester.API
         public SolutionTesterBuilder<T1, T2, T3, T4, T5, T6, TRet> WithTestCase(T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, TRet o)
         {
             return (SolutionTesterBuilder<T1, T2, T3, T4, T5, T6, TRet>) base.WithTestCase(new object[] { p1, p2, p3, p4, p5, p6 }, new object[] { o });
+        }
+        public new SolutionTesterBuilder<T1, T2, T3, T4, T5, T6, TRet> WithStringTestCase(string input, string output)
+        {
+            return (SolutionTesterBuilder<T1, T2, T3, T4, T5, T6, TRet>) base.WithStringTestCase(input, output);
         }
         public new SolutionTesterBuilder<T1, T2, T3, T4, T5, T6, TRet> WithAutoTestFile()
         {
