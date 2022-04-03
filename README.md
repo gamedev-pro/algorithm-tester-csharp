@@ -6,7 +6,7 @@
 - Go your .csproj file and add
 ```
   <ItemGroup>
-    <PackageReference Include="GameDevPro.AlgTester" Version="1.0.0" />
+    <PackageReference Include="GameDevPro.AlgTester" Version="1.0.1" />
   </ItemGroup>
 ```
 
